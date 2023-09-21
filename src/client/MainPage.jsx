@@ -1,32 +1,44 @@
 import getTasks from '@wasp/queries/getTasks'
 import getXCheapestHours from '@wasp/queries/getXCheapestHours'
-import createTask from '@wasp/actions/createTask'
-import updateTask from '@wasp/actions/updateTask'
+//import createTask from '@wasp/actions/createTask'
+//import updateTask from '@wasp/actions/updateTask'
 import sensiboPost from '@wasp/actions/sensiboPost'
 import { useQuery } from '@wasp/queries'
 import logout from '@wasp/auth/logout'
-import Chart from "./chart.jsx";
+import Chart from "./chart.jsx"
+import updatePrices from '@wasp/actions/updatePrices'
+import getRelays from '@wasp/queries/getRelays'
+import React, { useState, useEffect } from 'react'
+import './MainPage.css'
+import AddRelay from "./AddRelay.jsx"
 
 const MainPage = ({ user }) => {
 
   const { data: hinnat, boolean: hinnatLoading, error: error2 } = useQuery(getXCheapestHours, {
     hours: 24,
   })
-  const { data: tasks, boolean: tasksLoading, error: error1 } = useQuery(getTasks)
+  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays, {
+    logic: 2
+  })
+  
 
   return (
     <div>
-      
-        <NewTaskForm />
+      <div className="App">
+      <h1>Relay Entry Management</h1>
+      <AddRelay />
+    </div>
+
 
       <div>
-        {tasks && <TasksList tasks={tasks} />}
-        {tasksLoading && 'Loading...'}
+        {relays && <RelayList relays={relays} />}
+        {relaysLoading && 'Loading...'}
         {error1 && 'Error: ' + error1}
       </div>
 
       <button onClick={logout}>Logout</button>
       <button onClick={() => Jari( "sensiboPost" )}>sensiboPost</button>
+      <button onClick={() => Jari2( "updatePrices" )}>updatePrices</button>
       <div className="App">
         {hinnat && <Chart dataset={hinnat} />}
       </div>
@@ -69,6 +81,15 @@ const Jari = async (teksti) => {
   }
 }
 
+const Jari2 = async (teksti) => {
+  console.log('nappi: ', teksti)
+  try {
+    await updatePrices()
+  } catch (err) {
+    window.alert("Sattui virhe: " + err.message)
+  }
+}
+
 
 const Task = ({ task }) => {
   const handleIsDoneChange = async (event) => {
@@ -96,17 +117,57 @@ const Task = ({ task }) => {
   )
 }
 
-const TasksList = ({ tasks }) => {
-  if (!tasks?.length) return <div>No tasks</div>
+const RelayList = ({ relays }) => {
+  const [isEditing, setIsEditing] = useState({});
+
+  const handleEdit = (id) => {
+    setIsEditing({ ...isEditing, [id]: true });
+  };
+  
+  const handleSave = (id) => {
+    // Send updated data to your API for saving (implement this)
+    setIsEditing({ ...isEditing, [id]: false });
+  };
+
+  if (!relays?.length) return <div>No relays</div>
 
   return (
-    <div>
-      {tasks.map((task, idx) => (
-        <Task task={task} key={idx} />
-      ))}
-    </div>
+    <div className="data-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Logiikka</th>
+              <th>Kuvaus</th>
+              <th>Tuntia</th>
+              <th>Normaali lämpö</th>
+              <th>Alennettu lämpö</th>
+              <th>Muuta</th>
+            </tr>
+          </thead>
+          <tbody>
+            {relays.map((relay) => (
+              <tr key={relay.id}>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.logic} /> : relay.logic}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.description} /> : relay.description}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.hours} /> : relay.hours}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_1} /> : relay.temp_1}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_2} /> : relay.temp_2}</td>
+                <td>
+                  {isEditing[relay.id] ? (
+                    <button onClick={() => handleSave(relay.id)}>Save</button>
+                  ) : (
+                    <button onClick={() => handleEdit(relay.id)}>Edit</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
   )
 }
+
+
 
 const NewTaskForm = () => {
   const handleSubmit = async (event) => {

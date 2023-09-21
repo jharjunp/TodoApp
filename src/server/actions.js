@@ -2,15 +2,27 @@ import axios from 'axios'
 import HttpError from '@wasp/core/HttpError.js'
 import getXCheapestHours from '@wasp/queries/getXCheapestHours.js'
 import getRelays from '@wasp/queries/getRelays.js'
-import { isPrismaError, prismaErrorToHttpError } from "@wasp/utils.js";
+//import createHinnat from '@wasp/actions/createHinnat.js'
+//import { isPrismaError, prismaErrorToHttpError } from "@wasp/utils.js";
 
-export const createTask = async (args, context) => {
+export const createRelay = async (args, context) => {
   if (!context.user) {
     throw new HttpError(401)
   }
-  return context.entities.Task.create({
+  return context.entities.Relay.create({
     data: {
+      logic: Number(args.logic),
       description: args.description,
+      hours: Number(args.hours),
+      temp_1: Number(args.temp_1),
+      temp_2: Number(args.temp_2),
+      price_1: Number(args.price_1),
+      price_2: Number(args.price_2),
+      isOn: false,
+      SetOn: false,
+      deviceID: args.deviceID,
+      apiKey: args.apiKey,
+//      userId: context.user.id, 
       user: { connect: { id: context.user.id } },
     },
   })
@@ -23,20 +35,6 @@ export const updateTask = async (args, context) => {
   return context.entities.Task.updateMany({
     where: { id: args.id, user: { id: context.user.id } },
     data: { isDone: args.isDone },
-  })
-}
-
-export const createHinnat = async (args, context) => {
-  console.log('luodaan hintoja')
-//  console.log(args)
-
-   return context.entities.Hinnat.update({
-    where: {
-      id: 1,
-    },
-    data: {
-      hinnat: args.hinnat,
-    },
   })
 }
 
@@ -185,3 +183,38 @@ export const sensiboPost = async (args, context) => {
     })
   }
 }
+
+export const updatePrices = async (args, context) => {
+  console.log('Fetching new prices...')
+    axios
+      .get('https://api.porssisahko.net/v1/latest-prices.json')
+      .then(async response => {
+        console.log('Pricefetching promise fulfilled')
+        try {
+              await context.entities.Hinnat.update({
+                where: {
+                  id: 1,
+                },
+                data: {
+                  hinnat: response.data,
+                },
+              })  
+          } catch (err) {
+            console.log("Sattui virhe: " + err.message)
+          }
+      })
+}
+
+// export const createHinnat = async (args, context) => {
+//   console.log('luodaan hintoja')
+// //  console.log(args)
+
+//    return context.entities.Hinnat.update({
+//     where: {
+//       id: 1,
+//     },
+//     data: {
+//       hinnat: args.hinnat,
+//     },
+//   })
+// }

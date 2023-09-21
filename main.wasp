@@ -2,9 +2,10 @@ app TodoApp {
   wasp: {
     version: "^0.11.3"
   },
-  title: "TodoApp",
+  title: "kWh",
   dependencies: [
-    ("recharts", "^2.8.0")
+    ("recharts", "^2.8.0"),
+    ("axios", "^1.4.0")
   ],
 
   auth: {
@@ -86,13 +87,13 @@ query getRelays {
   entities: [Relay]
 }
 
-action createHinnat {
-  fn: import { createHinnat } from "@server/actions.js",
-  entities: [Hinnat]
-}
-action createTask {
-  fn: import { createTask } from "@server/actions.js",
-  entities: [Task]
+// action createHinnat {
+//   fn: import { createHinnat } from "@server/actions.js",
+//   entities: [Hinnat]
+// }
+action createRelay {
+  fn: import { createRelay } from "@server/actions.js",
+  entities: [Relay]
 }
 action updateTask {
   fn: import { updateTask } from "@server/actions.js",
@@ -110,11 +111,15 @@ action sensiboPost {
   fn: import { sensiboPost } from "@server/actions.js",
   entities: [Relay]
 }
+action updatePrices {
+  fn: import { updatePrices } from "@server/actions.js",
+  entities: [Hinnat]
+}
 
-job UpdateHinnat {
+job dailyJob {
   executor: PgBoss,
   perform: {
-    fn: import { getPrices } from "@server/workers.js",
+    fn: import { dailyWorker } from "@server/workers.js",
     executorOptions: {
       pgBoss: {=json { "retryLimit": 1 } json=}
     }
@@ -129,17 +134,17 @@ job UpdateHinnat {
   },
   entities: [Hinnat],
 }
-job updateRelaysJob {
+job hourlyJob {
   executor: PgBoss,
   perform: {
-    fn: import { uRelays } from "@server/workers.js",
+    fn: import { hourlyWorker } from "@server/workers.js",
     executorOptions: {
       pgBoss: {=json { "retryLimit": 1 } json=}
     }
   },
   schedule: {
-    cron: "* * * * *",
-//    cron: "0 * * * *",
+//    cron: "* * * * *",
+    cron: "0 * * * *",
     //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}
