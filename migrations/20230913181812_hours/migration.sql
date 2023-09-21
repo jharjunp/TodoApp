@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Relay" ADD COLUMN     "hours" INTEGER NOT NULL DEFAULT 24;
