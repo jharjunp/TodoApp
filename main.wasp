@@ -43,15 +43,7 @@ entity User {=psl
     id       Int    @id @default(autoincrement())
     username String @unique
     password String
-    tasks       Task[]
     relays      Relay[]
-psl=}
-entity Task {=psl
-    id          Int     @id @default(autoincrement())
-    description String
-    isDone      Boolean @default(false)
-    user        User    @relation(fields: [userId], references: [id])
-    userId      Int
 psl=}
 entity Hinnat {=psl
     id       Int    @id @default(autoincrement())
@@ -74,10 +66,6 @@ entity Relay {=psl
     userId      Int
 psl=}
 
-query getTasks {
-  fn: import { getTasks } from "@server/queries.js",
-  entities: [Task]
-}
 query getXCheapestHours {
   fn: import { getXCheapestHours } from "@server/queries.js",
   entities: [Hinnat]
@@ -87,17 +75,9 @@ query getRelays {
   entities: [Relay]
 }
 
-// action createHinnat {
-//   fn: import { createHinnat } from "@server/actions.js",
-//   entities: [Hinnat]
-// }
 action createRelay {
   fn: import { createRelay } from "@server/actions.js",
   entities: [Relay]
-}
-action updateTask {
-  fn: import { updateTask } from "@server/actions.js",
-  entities: [Task]
 }
 action updateRelaysLogic_1 {
   fn: import { updateRelaysLogic_1 } from "@server/actions.js",

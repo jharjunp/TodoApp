@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import createRelay from '@wasp/actions/createRelay'
 
 const AddRelay = () => {
@@ -25,13 +24,9 @@ const AddRelay = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send a POST request to your API endpoint for creating Relay entries
       const response = await createRelay(formData);
-
-      // Handle success (e.g., show a success message, reset the form)
       console.log('New Relay entry created:', response.data);
 
-      // Reset the form
       setFormData({
         logic: 1,
         description: '',
@@ -46,7 +41,6 @@ const AddRelay = () => {
         apiKey: 'kokko',
       });
     } catch (error) {
-      // Handle errors (e.g., display an error message)
       console.error('Error creating Relay entry:', error);
     }
   };

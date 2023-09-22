@@ -1,7 +1,4 @@
-import getTasks from '@wasp/queries/getTasks'
 import getXCheapestHours from '@wasp/queries/getXCheapestHours'
-//import createTask from '@wasp/actions/createTask'
-//import updateTask from '@wasp/actions/updateTask'
 import sensiboPost from '@wasp/actions/sensiboPost'
 import { useQuery } from '@wasp/queries'
 import logout from '@wasp/auth/logout'
@@ -90,33 +87,6 @@ const Jari2 = async (teksti) => {
   }
 }
 
-
-const Task = ({ task }) => {
-  const handleIsDoneChange = async (event) => {
-    //console.log('task: ', task)
-    try {
-      await updateTask({
-        id: task.id,
-        isDone: event.target.checked,
-      })
-    } catch (err) {
-      window.alert("Error while updating task: " + err.message)
-    }
-  }
-
-  return (
-    <div>
-      <input
-        type="checkbox"
-        id={String(task.id)}
-        checked={task.isDone}
-        onChange={handleIsDoneChange}
-      />
-      {task.description}
-    </div>
-  )
-}
-
 const RelayList = ({ relays }) => {
   const [isEditing, setIsEditing] = useState({});
 
@@ -164,29 +134,6 @@ const RelayList = ({ relays }) => {
           </tbody>
         </table>
       </div>
-  )
-}
-
-
-
-const NewTaskForm = () => {
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    try {
-      const target = event.target
-      const description = target.description.value
-      target.reset()
-      await createTask({ description })
-    } catch (err) {
-      window.alert('Error: ' + err.message)
-    }
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input name="description" type="text" defaultValue="" />
-      <input type="submit" value="Create task" />
-    </form>
   )
 }
 
