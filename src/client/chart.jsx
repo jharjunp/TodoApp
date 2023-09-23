@@ -11,7 +11,7 @@ import {
   
   export default function Chart( {dataset} ) {
     const dataClean = structuredClone(dataset).map(x => {
-      x.startDate = new Date(x.startDate).getHours()
+      x.timeStamp = new Date(x.timeStamp).getHours()
       return x
     })
 
@@ -27,7 +27,7 @@ import {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey = "startDate" />
+          <XAxis dataKey = "timeStamp" />
           <YAxis />
           <Tooltip />
           <Legend />

@@ -47,7 +47,6 @@ const AddRelay = () => {
 
   return (
     <div className="add-relay">
-      <h2>Add New Relay Entry</h2>
       <form onSubmit={handleSubmit}>
         <div>
         <table>

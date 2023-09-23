@@ -45,9 +45,14 @@ entity User {=psl
     password String
     relays      Relay[]
 psl=}
-entity Hinnat {=psl
-    id       Int    @id @default(autoincrement())
-    hinnat   Json
+// entity Hinnat {=psl
+//     id       Int    @id @default(autoincrement())
+//     hinnat   Json
+// psl=}
+entity PriceData {=psl
+    id          Int    @id @default(autoincrement())
+    timeStamp   DateTime  @unique
+    price       Float
 psl=}
 entity Relay {=psl
     id          Int     @id @default(autoincrement())
@@ -66,13 +71,13 @@ entity Relay {=psl
     userId      Int
 psl=}
 
-query getXCheapestHours {
-  fn: import { getXCheapestHours } from "@server/queries.js",
-  entities: [Hinnat]
-}
 query getRelays {
   fn: import { getRelays } from "@server/queries.js",
   entities: [Relay]
+}
+query getTodaysPrices {
+  fn: import { getTodaysPrices } from "@server/queries.js",
+  entities: [PriceData]
 }
 
 action createRelay {
@@ -81,11 +86,11 @@ action createRelay {
 }
 action updateRelaysLogic_1 {
   fn: import { updateRelaysLogic_1 } from "@server/actions.js",
-  entities: [Relay, Hinnat]
+  entities: [Relay]
 }
 action updateRelaysLogic_2 {
   fn: import { updateRelaysLogic_2 } from "@server/actions.js",
-  entities: [Relay, Hinnat]
+  entities: [Relay]
 }
 action sensiboPost {
   fn: import { sensiboPost } from "@server/actions.js",
@@ -93,7 +98,7 @@ action sensiboPost {
 }
 action updatePrices {
   fn: import { updatePrices } from "@server/actions.js",
-  entities: [Hinnat]
+  entities: [PriceData]
 }
 
 job dailyJob {
@@ -112,7 +117,7 @@ job dailyJob {
       pgBoss: {=json { "retryLimit": 0 } json=}
     }
   },
-  entities: [Hinnat],
+  entities: [],
 }
 job hourlyJob {
   executor: PgBoss,
@@ -123,8 +128,8 @@ job hourlyJob {
     }
   },
   schedule: {
-//    cron: "* * * * *",
-    cron: "0 * * * *",
+    cron: "* * * * *",
+//    cron: "0 * * * *",
     //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import HttpError from '@wasp/core/HttpError.js'
-import getXCheapestHours from '@wasp/queries/getXCheapestHours.js'
+import getTodaysPrices from '@wasp/queries/getTodaysPrices.js'
 import getRelays from '@wasp/queries/getRelays.js'
 
 export const createRelay = async (args, context) => {
@@ -28,7 +28,7 @@ export const createRelay = async (args, context) => {
 export const updateRelaysLogic_1 = async (args, context) => {
 
   const relays = await getRelays({logic: 1})
-  const vuorokaudenHinnat = await getXCheapestHours({hours: 24})
+  const vuorokaudenHinnat = await getTodaysPrices()
   const xHalvin = vuorokaudenHinnat.sort((a, b) => a.price - b.price).map(getHour).findIndex(checkHour) + 1
   console.log('Now is the ' + xHalvin + ' cheapest hour of the day.' )
   const turnOn = []
@@ -53,7 +53,7 @@ export const updateRelaysLogic_1 = async (args, context) => {
   })
 
   function getHour(price) {
-    return new Date(price.startDate).getHours()
+    return new Date(price.timeStamp).getHours()
   }
 
   function checkHour(hour) {
@@ -64,7 +64,7 @@ export const updateRelaysLogic_1 = async (args, context) => {
 
 export const updateRelaysLogic_2 = async (args, context) => {
   const relays = await getRelays({logic: 2})
-  const hourlyPrices = await getXCheapestHours({hours: 24})
+  const hourlyPrices = await getTodaysPrices()
   const xCostliest = hourlyPrices.sort((a, b) => b.price - a.price).map(getHour).findIndex(checkHour) + 1
   console.log('Now is the ' + xCostliest + ' most expensive hour of the day.' )
   const turnOn = []
@@ -89,7 +89,7 @@ export const updateRelaysLogic_2 = async (args, context) => {
   })
 
   function getHour(price) {
-    return new Date(price.startDate).getHours()
+    return new Date(price.timeStamp).getHours()
   }
 
   function checkHour(hour) {
@@ -178,19 +178,41 @@ export const updatePrices = async (args, context) => {
       .then(async response => {
         console.log('Pricefetching promise fulfilled')
         try {
-          await context.entities.Hinnat.upsert({
-            where: {
-              id: 1,
-            },
-            update: {
-              hinnat: response.data,
-            },
-            create: {
-              hinnat: response.data,
-            }
-          })
+        //   await context.entities.Hinnat.upsert({
+        //     where: {
+        //       id: 1,
+        //     },
+        //     update: {
+        //       hinnat: response.data,
+        //     },
+        //     create: {
+        //       hinnat: response.data,
+        //     }
+        //   })
+          storePriceData(response.data)            
         } catch (err) {
             console.log("Sattui virhe: " + err.message)
           }
       })
+  const storePriceData = async (data) => {
+    //console.log(data)
+    data.prices.forEach( async price => {
+      //console.log(price.startDate + ' ' + price.price)
+      try {
+          await context.entities.PriceData.upsert({
+            where: {
+              timeStamp: price.startDate,
+            },
+            update: {},
+            create: {
+              timeStamp: price.startDate,
+              price: price.price
+          }
+        })
+      } catch (err) {
+        console.log("Sattui virhe: " + err.message)
+      }
+      
+    })
+  }
 }

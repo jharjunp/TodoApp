@@ -1,4 +1,4 @@
-import getXCheapestHours from '@wasp/queries/getXCheapestHours'
+import getTodaysPrices from '@wasp/queries/getTodaysPrices'
 import sensiboPost from '@wasp/actions/sensiboPost'
 import { useQuery } from '@wasp/queries'
 import logout from '@wasp/auth/logout'
@@ -11,21 +11,18 @@ import AddRelay from "./AddRelay.jsx"
 
 const MainPage = ({ user }) => {
 
-  const { data: hinnat, boolean: hinnatLoading, error: error2 } = useQuery(getXCheapestHours, {
-    hours: 24,
-  })
   const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays, {
     logic: 2
   })
+  const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices)
   
 
   return (
-    <div>
-      <div className="App">
-      <h1>Relay Entry Management</h1>
-      <AddRelay />
-    </div>
-
+      <div>
+        <div className="App">
+        <h1>Lisää rele</h1>
+        <AddRelay />
+      </div>
 
       <div>
         {relays && <RelayList relays={relays} />}
@@ -37,33 +34,33 @@ const MainPage = ({ user }) => {
       <button onClick={() => Jari( "sensiboPost" )}>sensiboPost</button>
       <button onClick={() => Jari2( "updatePrices" )}>updatePrices</button>
       <div className="App">
-        {hinnat && <Chart dataset={hinnat} />}
+        {todaysPrices && <Chart dataset={todaysPrices} />}
       </div>
       <div>
-        {hinnat && <HintaLista hinnat={hinnat} />}
-        {hinnatLoading && 'Loading...'}
-        {error2 && 'Error: ' + error2}
+        {todaysPrices && <HintaLista hinnat={todaysPrices} />}
+        {todaysPricesLoading && 'Loading...'}
+        {error3 && 'Error: ' + error3}
       </div>
     </div>
   )
 }
 
 const HintaLista = ({ hinnat }) => {
-//  console.log(hinnat)
+  //console.log(hinnat)
   if (!hinnat?.length) return <div>Ei hintoja</div>
   return (
-    <div>
+    <div className='priceList'> 
       <h2>Päivän hinnat</h2>
-      {hinnat.map((hinta, idx) => <Hinta key={idx} {...hinta} /> )}
+      {hinnat.map((hinta) => <Hinta key={hinta.id} data={hinta} /> )}
     </div>
   )
 }
 
-const Hinta = ({ idx, price, startDate, endDate }) => {
-  const sDate = new Date(startDate)
+const Hinta = ({ data }) => {
+  const sDate = new Date(data.timeStamp)
   return (
     <ul>
-      <li key={idx}>{sDate.getDate()}.{sDate.getMonth() + 1} klo {sDate.getHours()} hinta on {price}c</li>
+      <li key={data.id}>{sDate.getDate()}.{sDate.getMonth() + 1} klo {sDate.getHours()} hinta on {data.price}c</li>
     </ul>
   )
 }
