@@ -20,6 +20,7 @@ const MainPage = ({ user }) => {
   return (
       <div>
         <div className="App">
+        <a href="./relayManagement">relay management</a>
         <h1>Lisää rele</h1>
         <AddRelay />
       </div>

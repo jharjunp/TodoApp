@@ -5,7 +5,8 @@ app TodoApp {
   title: "kWh",
   dependencies: [
     ("recharts", "^2.8.0"),
-    ("axios", "^1.4.0")
+    ("axios", "^1.4.0"),
+    ("react", "^18.2.0")
   ],
 
   auth: {
@@ -27,6 +28,11 @@ route RootRoute { path: "/", to: MainPage }
 page MainPage {
   authRequired: true,
   component: import Main from "@client/MainPage.jsx"
+}
+route relayManagementRoute { path: "/relaymanagement", to: relayManagement }
+page relayManagement {
+  authRequired: true,
+  component: import Main from "@client/Pages/RelayManagement/RelayManagement.jsx"
 }
 
 route SignupRoute { path: "/signup", to: SignupPage }
