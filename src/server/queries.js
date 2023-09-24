@@ -1,5 +1,6 @@
 import HttpError from '@wasp/core/HttpError.js'
 import { Console } from 'console'
+import { DateTime } from 'luxon'
 
 export const getRelays = async (args, context) => {
   return context.entities.Relay.findMany({
@@ -8,30 +9,17 @@ export const getRelays = async (args, context) => {
 }
 
 export const getTodaysPrices = async (args, context) => {
-  function getEETDate() {
-    const options = { timeZone: 'Europe/Bucharest', hour12: false };
-    const eetDateStr = new Intl.DateTimeFormat('en-US', options).format(new Date());
-    //const eetDate = new Date(eetDateStr);
-    //const eetDateStr = new Date().toLocaleString("en-US", {timeZone: "Europe/Helsinki"})
-    console.log("eetDateStr: " + eetDateStr)
-    const eetDate = new Date(eetDateStr);
-    console.log("EETDate: " + eetDate)
-  
-    return eetDate;
-  }
-  
   try {
-    const today = new getEETDate()
-    today.setHours(0, 0, 0, 0)
-    const endOfDay = new getEETDate(today)
-    endOfDay.setHours(23, 59, 59, 999)
-    console.log("today: " + today + "endOfToday: " + endOfDay)
+    const today = DateTime.now().setZone('EET')
+    const startOfDayEET = today.startOf('day')
+    const endOfDayEET = today.endOf('day')
+    console.log("today: " + startOfDayEET + "endOfToday: " + endOfDayEET)
 
     const pricesToday = await context.entities.PriceData.findMany({
       where: {
         timeStamp: {
-          gte: today,
-          lte: endOfDay,
+          gte: startOfDayEET.toUTC().toJSDate(),
+          lte: endOfDayEET.toUTC().toJSDate(),
         },
       },
     })
