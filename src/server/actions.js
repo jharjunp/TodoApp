@@ -178,17 +178,6 @@ export const updatePrices = async (args, context) => {
       .then(async response => {
         console.log('Pricefetching promise fulfilled')
         try {
-        //   await context.entities.Hinnat.upsert({
-        //     where: {
-        //       id: 1,
-        //     },
-        //     update: {
-        //       hinnat: response.data,
-        //     },
-        //     create: {
-        //       hinnat: response.data,
-        //     }
-        //   })
           storePriceData(response.data)            
         } catch (err) {
             console.log("Sattui virhe: " + err.message)
