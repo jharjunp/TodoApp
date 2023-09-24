@@ -46,7 +46,7 @@ const MainPage = ({ user }) => {
 }
 
 const HintaLista = ({ hinnat }) => {
-  //console.log(hinnat)
+  console.log(hinnat)
   if (!hinnat?.length) return <div>Ei hintoja</div>
   return (
     <div className='priceList'> 
