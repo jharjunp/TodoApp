@@ -13,7 +13,7 @@ export const getTodaysPrices = async (args, context) => {
     const today = DateTime.now().setZone('EET')
     const startOfDayEET = today.startOf('day')
     const endOfDayEET = today.endOf('day')
-    console.log("today: " + startOfDayEET + "endOfToday: " + endOfDayEET)
+    //console.log("today: " + startOfDayEET + "endOfToday: " + endOfDayEET)
 
     const pricesToday = await context.entities.PriceData.findMany({
       where: {
@@ -23,7 +23,7 @@ export const getTodaysPrices = async (args, context) => {
         },
       },
     })
-    console.log(pricesToday.sort((a, b) => a.timeStamp - b.timeStamp))
+    //console.log(pricesToday.sort((a, b) => a.timeStamp - b.timeStamp))
     return pricesToday.sort((a, b) => a.timeStamp - b.timeStamp)
   } catch (error) {
     throw error
