@@ -54,10 +54,6 @@ entity User {=psl
     password String
     relays      Relay[]
 psl=}
-// entity Hinnat {=psl
-//     id       Int    @id @default(autoincrement())
-//     hinnat   Json
-// psl=}
 entity PriceData {=psl
     id          Int    @id @default(autoincrement())
     timeStamp   DateTime  @unique
@@ -76,8 +72,17 @@ entity Relay {=psl
     SetOn       Boolean
     deviceID    String  @default("kokko")
     apiKey      String  @default("kokko")
+    Logs        Log[]
     user        User    @relation(fields: [userId], references: [id])
     userId      Int
+psl=}
+entity Log {=psl
+    id          Int    @id @default(autoincrement())
+    timeStamp   DateTime
+    outcome     Boolean  
+    logEntry    Json
+    relay       Relay? @relation(fields: [relayId], references: [id])
+    relayId     Int?
 psl=}
 
 query getRelays {
@@ -93,20 +98,16 @@ action createRelay {
   fn: import { createRelay } from "@server/actions.js",
   entities: [Relay]
 }
-action updateRelaysLogic_1 {
-  fn: import { updateRelaysLogic_1 } from "@server/actions.js",
-  entities: [Relay]
-}
-action updateRelaysLogic_2 {
-  fn: import { updateRelaysLogic_2 } from "@server/actions.js",
-  entities: [Relay]
-}
-action sensiboPost {
-  fn: import { sensiboPost } from "@server/actions.js",
-  entities: [Relay]
-}
+// action sensiboPost {
+//   fn: import { sensiboPost } from "@server/actions.js",
+//   entities: [Relay]
+// }
 action updatePrices {
   fn: import { updatePrices } from "@server/actions.js",
+  entities: [PriceData]
+}
+action triggerHourly {
+  fn: import { triggerHourly } from "@server/actions.js",
   entities: [PriceData]
 }
 
@@ -120,7 +121,7 @@ job dailyJob {
   },
   schedule: {
 //    cron: "* * * * *",
-    cron: "0 11 * * *",
+    cron: "0 15 * * *",
     //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}
@@ -137,12 +138,12 @@ job hourlyJob {
     }
   },
   schedule: {
-    cron: "* * * * *",
-//    cron: "0 * * * *",
+//    cron: "* * * * *",
+    cron: "1 * * * *",
     //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}
     }
   },
-  entities: [],
+  entities: [Relay],
 }
