@@ -1,5 +1,5 @@
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'
-import sensiboPost from '@wasp/actions/sensiboPost'
+import triggerHourly from '@wasp/actions/triggerHourly'
 import { useQuery } from '@wasp/queries'
 import logout from '@wasp/auth/logout'
 import Chart from "./chart.jsx"
@@ -32,7 +32,7 @@ const MainPage = ({ user }) => {
       </div>
 
       <button onClick={logout}>Logout</button>
-      <button onClick={() => Jari( "sensiboPost" )}>sensiboPost</button>
+      <button onClick={() => Jari( "triggerHourly" )}>triggerHourly</button>
       <button onClick={() => Jari2( "updatePrices" )}>updatePrices</button>
       <div className="App">
         {todaysPrices && <Chart dataset={todaysPrices} />}
@@ -70,7 +70,7 @@ const Hinta = ({ data }) => {
 const Jari = async (teksti) => {
   console.log('nappi: ', teksti)
   try {
-    await sensiboPost()
+    await triggerHourly()
   } catch (err) {
     window.alert("Sattui virhe: " + err.message)
   }
