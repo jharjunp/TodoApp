@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './RelayManagement.css'
 
 const RelayManagement = ({ user }) => {
 
@@ -9,7 +10,7 @@ const RelayManagement = ({ user }) => {
 
   return (
     <div className="App">
-      <h1>Tabbed Content</h1>
+      <h1>Your Relays</h1>
       <Tabs
           id="controlled-tabs"
           activeKey={key}
