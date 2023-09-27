@@ -82,4 +82,4 @@ const AddRelay = () => {
   );
 };
 
-export default AddRelay;
+export default AddRelay

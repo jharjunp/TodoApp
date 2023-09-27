@@ -8,6 +8,7 @@ import getRelays from '@wasp/queries/getRelays'
 import React, { useState, useEffect } from 'react'
 import './MainPage.css'
 import AddRelay from "./AddRelay.jsx"
+import RelayList from "./RelayList.jsx"
 
 const MainPage = ({ user }) => {
 
@@ -47,7 +48,7 @@ const MainPage = ({ user }) => {
 }
 
 const HintaLista = ({ hinnat }) => {
-  console.log(hinnat)
+  //console.log(hinnat)
   if (!hinnat?.length) return <div>Ei hintoja</div>
   return (
     <div className='priceList'> 
@@ -83,62 +84,6 @@ const Jari2 = async (teksti) => {
   } catch (err) {
     window.alert("Sattui virhe: " + err.message)
   }
-}
-
-const RelayList = ({ relays }) => {
-  const [isEditing, setIsEditing] = useState({});
-
-  const handleEdit = (id) => {
-    setIsEditing({ ...isEditing, [id]: true });
-  };
-  
-  const handleSave = (id) => {
-    // Send updated data to your API for saving (implement this)
-    setIsEditing({ ...isEditing, [id]: false });
-  };
-
-  if (!relays?.length) return <div>No relays</div>
-
-  return (
-    <div className="data-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Logiikka</th>
-              <th>Kuvaus</th>
-              <th>Tuntia</th>
-              <th>Normaali lämpö</th>
-              <th>Alennettu lämpö</th>
-              <th>Is On</th>
-              <th>Set On</th>
-              <th>Viimeisin päivitys</th>
-              <th>Muuta</th>
-            </tr>
-          </thead>
-          <tbody>
-            {relays.map((relay) => (
-              <tr key={relay.id}>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.logic} /> : relay.logic}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.description} /> : relay.description}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.hours} /> : relay.hours}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_1} /> : relay.temp_1}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_2} /> : relay.temp_2}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.isOn} /> : relay.isOn ? "true" : "false"}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.setOn} /> : relay.setOn ? "true" : "false"}</td>
-                <td>{isEditing[relay.id] ? <input type="text" value={relay.setOn} /> : relay.Logs}</td>
-                <td>
-                  {isEditing[relay.id] ? (
-                    <button onClick={() => handleSave(relay.id)}>Save</button>
-                  ) : (
-                    <button onClick={() => handleEdit(relay.id)}>Edit</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-  )
 }
 
 export default MainPage

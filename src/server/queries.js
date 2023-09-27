@@ -8,6 +8,15 @@ export const getRelays = async (args, context) => {
   })
 }
 
+export const getLogs = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(403)
+  }
+  return context.entities.Log.findMany({
+    where: { logic: args.logic },
+  })
+}
+
 export const getTodaysPrices = async (args, context) => {
   try {
     const today = DateTime.now().setZone('EET')
