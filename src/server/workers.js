@@ -23,7 +23,7 @@ export const hourlyWorker = async (args, context) => {
     console.log("Sattui virhe: " + err.message)
   }
   try {
-    await sensiboPost ({relay: context.entities.Relay})
+    await sensiboPost ({relay: context.entities.Relay, log: context.entities.Log})
   } catch (err) {
     console.log("Sattui virhe: " + err.message)
   }

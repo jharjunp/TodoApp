@@ -141,5 +141,5 @@ job hourlyJob {
       pgBoss: {=json { "retryLimit": 0 } json=}
     }
   },
-  entities: [Relay],
+  entities: [Relay, Log],
 }

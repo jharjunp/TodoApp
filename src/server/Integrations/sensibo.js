@@ -47,32 +47,84 @@ const sensiboPost = async (args, context) => {
             successfulResponses.push(resp) //.data)
         }
       })
-  
+
       handleSuccessfulResponses(successfulResponses)
       handleFailedResponses(failedResponses)
     })
   
     function handleSuccessfulResponses(responses) {
       console.log('Successful Responses:')
-      responses.forEach((resp) => {
-        let msg = {
-          data:   resp,
-          result: resp.result,
-          fields: Object.keys(resp).toString(),
+      responses.forEach(async (resp) => {
+        const { status, statusText, config, data } = resp
+        const parts = config.url.split('/')
+        const deviceID = parts[6]
+        const relayId = getRelayIdByDeviceID(deviceID)
+        let logEntry = {
+          StatusCode:   status,
+          StatusText:   statusText,
+          ResponseData: data,
         }
-        //console.info(resp.config.url)
-        //console.table(msg)
-        console.log(resp)
+
+        // Update the log -table.
+        try {
+            const logged = await args.log.create({
+              data: {
+                timeStamp:  new Date(),
+                outcome:    true,
+                logEntry:   logEntry,
+                relay:      {
+                    connect:    {id: relayId},
+                },
+              },
+            })
+        } catch (error) {
+            throw error
+        }
+        // Update the isOn -information on the Relay -table. Rule is on if the temp_2 is set.
+        try {
+            const update = await args.relay.update({
+              where: { id: relayId },
+              data: { isOn: data.result.acState.targetTemperature == relays.temp_2 }
+            })
+        } catch (error) {
+            throw error
+        }
+
       })
     }
       
     function handleFailedResponses(responses) {
       console.log('Failed Responses:')
-      responses.forEach(response => {
+      responses.forEach(async response => {
         const parsedError = parseAxiosError(response)
-        console.log(parsedError)
+        const relayId = getRelayIdByDeviceID(parsedError.deviceID)
+
+        // Update the log -table.
+        try {
+            const logged = await args.log.create({
+              data: {
+                timeStamp:  new Date(),
+                outcome:    false,
+                logEntry:   parsedError,
+                relay:      {
+                    connect:    {id: relayId},
+                },
+              },
+            })
+          } catch (error) {
+            throw error
+          }
       })
     }
+
+    function getRelayIdByDeviceID(deviceID) {
+        const relay = relays.find((relay) => relay.deviceID === deviceID)
+        if (relay) {
+          return relay.id
+        } else {
+          return null
+        }
+      }
 
     function parseAxiosError(error) {
       if (error.response) {
