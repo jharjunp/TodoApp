@@ -109,6 +109,9 @@ const RelayList = ({ relays }) => {
               <th>Tuntia</th>
               <th>Normaali lämpö</th>
               <th>Alennettu lämpö</th>
+              <th>Is On</th>
+              <th>Set On</th>
+              <th>Viimeisin päivitys</th>
               <th>Muuta</th>
             </tr>
           </thead>
@@ -120,6 +123,9 @@ const RelayList = ({ relays }) => {
                 <td>{isEditing[relay.id] ? <input type="text" value={relay.hours} /> : relay.hours}</td>
                 <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_1} /> : relay.temp_1}</td>
                 <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_2} /> : relay.temp_2}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.isOn} /> : relay.isOn ? "true" : "false"}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.setOn} /> : relay.setOn ? "true" : "false"}</td>
+                <td>{isEditing[relay.id] ? <input type="text" value={relay.setOn} /> : relay.Logs}</td>
                 <td>
                   {isEditing[relay.id] ? (
                     <button onClick={() => handleSave(relay.id)}>Save</button>
