@@ -70,7 +70,7 @@ entity Relay {=psl
     price_2     Float   @default(10.0)
     isOn        Boolean
     SetOn       Boolean
-    deviceID    String  @default("kokko")
+    deviceID    String  @unique
     apiKey      String  @default("kokko")
     Logs        Log[]
     user        User    @relation(fields: [userId], references: [id])
@@ -98,10 +98,6 @@ action createRelay {
   fn: import { createRelay } from "@server/actions.js",
   entities: [Relay]
 }
-// action sensiboPost {
-//   fn: import { sensiboPost } from "@server/actions.js",
-//   entities: [Relay]
-// }
 action updatePrices {
   fn: import { updatePrices } from "@server/actions.js",
   entities: [PriceData]

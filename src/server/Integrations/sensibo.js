@@ -69,9 +69,43 @@ const sensiboPost = async (args, context) => {
     function handleFailedResponses(responses) {
       console.log('Failed Responses:')
       responses.forEach(response => {
-        //console.error(response)
+        const parsedError = parseAxiosError(response)
+        console.log(parsedError)
       })
     }
+
+    function parseAxiosError(error) {
+      if (error.response) {
+        // The request was made, but the server responded with an error status
+        const status = error.response.status
+        const statusText = error.response.statusText
+        const responseData = error.response.data
+        const url = error.config.url
+        const parts = url.split('/')
+        const deviceID = parts[6]
+        
+        return {
+          deviceID,
+          status,
+          statusText,
+          responseData,
+        }
+      } else if (error.request) {
+        // The request was made, but no response was received
+        // This can happen if the server is unreachable
+        return {
+          status: 'Request Failed',
+          message: 'No response received from the server.',
+        }
+      } else {
+        // Something else went wrong while setting up the request
+        return {
+          status: 'Request Error',
+          message: error.message,
+        }
+      }
+    }
+
   }
 
   export default sensiboPost
