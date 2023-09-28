@@ -59,6 +59,7 @@ const sensiboPost = async (args, context) => {
         const parts = config.url.split('/')
         const deviceID = parts[6]
         const relayId = getRelayIdByDeviceID(deviceID)
+        const userID = getUserIdByRelayID(relayId)
         let logEntry = {
           StatusCode:   status,
           StatusText:   statusText,
@@ -75,6 +76,9 @@ const sensiboPost = async (args, context) => {
                 relay:      {
                     connect:    {id: relayId},
                 },
+                user:       {
+                    connect:    {id: userID},
+                }
               },
             })
         } catch (error) {
@@ -98,7 +102,7 @@ const sensiboPost = async (args, context) => {
       responses.forEach(async response => {
         const parsedError = parseAxiosError(response)
         const relayId = getRelayIdByDeviceID(parsedError.deviceID)
-
+        const userID = getUserIdByRelayID(relayId)
         // Update the log -table.
         try {
             const logged = await args.log.create({
@@ -109,6 +113,9 @@ const sensiboPost = async (args, context) => {
                 relay:      {
                     connect:    {id: relayId},
                 },
+                user:       {
+                    connect:    {id: userID},
+                }
               },
             })
           } catch (error) {
@@ -124,7 +131,17 @@ const sensiboPost = async (args, context) => {
         } else {
           return null
         }
-      }
+    }
+
+    function getUserIdByRelayID(relayID) {
+        const relay = relays.find((relay) => relay.id === relayID)
+        //console.log("UserId: " + relay.userId)
+        if (relay) {
+          return relay.userId
+        } else {
+          return null
+        }
+    }
 
     function parseAxiosError(error) {
       if (error.response) {

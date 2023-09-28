@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react'
 import './MainPage.css'
 import AddRelay from "./AddRelay.jsx"
 import RelayList from "./RelayList.jsx"
+import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
 
 const MainPage = ({ user }) => {
 
@@ -16,6 +17,7 @@ const MainPage = ({ user }) => {
     logic: 2
   })
   const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices)
+  const { data: logs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay)
   
 
   return (
@@ -27,9 +29,9 @@ const MainPage = ({ user }) => {
       </div>
 
       <div>
-        {relays && <RelayList relays={relays} />}
+        {relays && logs && <RelayList relays={relays} logs={logs} />}
         {relaysLoading && 'Loading...'}
-        {error1 && 'Error: ' + error1}
+        {logsError && 'Error: ' + logsError}
       </div>
 
       <button onClick={logout}>Logout</button>
@@ -48,7 +50,7 @@ const MainPage = ({ user }) => {
 }
 
 const HintaLista = ({ hinnat }) => {
-  //console.log(hinnat)
+
   if (!hinnat?.length) return <div>Ei hintoja</div>
   return (
     <div className='priceList'> 

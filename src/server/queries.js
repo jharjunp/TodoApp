@@ -1,10 +1,14 @@
 import HttpError from '@wasp/core/HttpError.js'
-import { Console } from 'console'
 import { DateTime } from 'luxon'
 
 export const getRelays = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(403)
+  }
   return context.entities.Relay.findMany({
-    where: { logic: args.logic },
+    where: {
+      user: { id: context.user.id },
+    },
   })
 }
 
@@ -13,8 +17,39 @@ export const getLogs = async (args, context) => {
     throw new HttpError(403)
   }
   return context.entities.Log.findMany({
-    where: { logic: args.logic },
+    where: {
+      user: { id: context.user.id },
+    },
   })
+}
+
+export const getLatestOutcomesPerRelay = async (args, context) => {
+  try {
+    const relays = await context.entities.Relay.findMany({
+      include: {
+        Logs: {
+          orderBy: {
+            timeStamp: 'desc',
+          },
+          take: 1, // Take only the latest log entry per relay
+        },
+      },
+    })
+
+    // Extract the latest outcomes from the logs
+    const latestOutcomes = relays.map((relay) => {
+      const latestLog = relay.Logs[0] // Assuming there is at least one log entry
+      return {
+        relayId: relay.id,
+        outcome: latestLog.outcome ? latestLog.outcome : false,
+        timeStamp: latestLog.timeStamp ? latestLog.timeStamp : "NA",
+      };
+    });
+
+    return latestOutcomes;
+  } catch (error) {
+    throw new Error(`Error fetching latest outcomes: ${error.message}`);
+  }
 }
 
 export const getTodaysPrices = async (args, context) => {
@@ -22,7 +57,6 @@ export const getTodaysPrices = async (args, context) => {
     const today = DateTime.now().setZone('EET')
     const startOfDayEET = today.startOf('day')
     const endOfDayEET = today.endOf('day')
-    //console.log("today: " + startOfDayEET + "endOfToday: " + endOfDayEET)
 
     const pricesToday = await context.entities.PriceData.findMany({
       where: {
@@ -32,7 +66,6 @@ export const getTodaysPrices = async (args, context) => {
         },
       },
     })
-    //console.log(pricesToday.sort((a, b) => a.timeStamp - b.timeStamp))
     return pricesToday.sort((a, b) => a.timeStamp - b.timeStamp)
   } catch (error) {
     throw error

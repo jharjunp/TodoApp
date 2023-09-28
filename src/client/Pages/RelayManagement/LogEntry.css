@@ -1,0 +1,13 @@
+.log-entry {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    overflow: auto;
+    max-height: 300px; /* Adjust the maximum height as needed */
+  }
+  
+  .log-entry pre {
+    white-space: pre-wrap;
+  }

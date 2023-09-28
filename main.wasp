@@ -49,10 +49,11 @@ page LoginPage {
 }
 
 entity User {=psl
-    id       Int    @id @default(autoincrement())
-    username String @unique
-    password String
-    relays      Relay[]
+    id        Int    @id @default(autoincrement())
+    username  String @unique
+    password  String
+    relays    Relay[]
+    Logs      Log[]
 psl=}
 entity PriceData {=psl
     id          Int    @id @default(autoincrement())
@@ -81,8 +82,10 @@ entity Log {=psl
     timeStamp   DateTime
     outcome     Boolean  
     logEntry    Json
-    relay       Relay? @relation(fields: [relayId], references: [id])
-    relayId     Int?
+    relay       Relay @relation(fields: [relayId], references: [id])
+    relayId     Int
+    user        User   @relation(fields: [userId], references: [id])
+    userId      Int
 psl=}
 
 query getRelays {
@@ -92,6 +95,14 @@ query getRelays {
 query getTodaysPrices {
   fn: import { getTodaysPrices } from "@server/queries.js",
   entities: [PriceData]
+}
+query getLogs {
+  fn: import { getLogs } from "@server/queries.js",
+  entities: [Log]
+}
+query getLatestOutcomesPerRelay {
+  fn: import { getLatestOutcomesPerRelay } from "@server/queries.js",
+  entities: [Relay]
 }
 
 action createRelay {
@@ -117,7 +128,7 @@ job dailyJob {
   },
   schedule: {
 //    cron: "* * * * *",
-    cron: "0 15 * * *",
+    cron: "0 15, 03 * * *",
     //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}

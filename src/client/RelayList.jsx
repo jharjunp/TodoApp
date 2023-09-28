@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-const RelayList = ({ relays }) => {
-    const [isEditing, setIsEditing] = useState({});
+
+
+
+const RelayList = ({ relays, logs }) => {
+    const [isEditing, setIsEditing] = useState({})
+
+    //console.log(relays)
   
     const handleEdit = (id) => {
       setIsEditing({ ...isEditing, [id]: true });
@@ -13,7 +18,7 @@ const RelayList = ({ relays }) => {
     };
   
     if (!relays?.length) return <div>No relays</div>
-  
+
     return (
       <div className="data-container">
           <table>
@@ -40,7 +45,7 @@ const RelayList = ({ relays }) => {
                   <td>{isEditing[relay.id] ? <input type="text" value={relay.temp_2} /> : relay.temp_2}</td>
                   <td>{isEditing[relay.id] ? <input type="text" value={relay.isOn} /> : relay.isOn ? "true" : "false"}</td>
                   <td>{isEditing[relay.id] ? <input type="text" value={relay.setOn} /> : relay.setOn ? "true" : "false"}</td>
-                  <td>{relay.Logs}</td>
+                  <td>{logs.find((log) => relay.id === log.relayId).outcome ? "Ok" : "Nok"}</td>
                   <td>
                     {isEditing[relay.id] ? (
                       <button onClick={() => handleSave(relay.id)}>Save</button>
