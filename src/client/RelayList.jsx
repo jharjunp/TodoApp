@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-
-
-
 const RelayList = ({ relays, logs }) => {
     const [isEditing, setIsEditing] = useState({})
 

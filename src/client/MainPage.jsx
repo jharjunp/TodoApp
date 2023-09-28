@@ -13,9 +13,7 @@ import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
 
 const MainPage = ({ user }) => {
 
-  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays, {
-    logic: 2
-  })
+  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays)
   const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices)
   const { data: logs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay)
   

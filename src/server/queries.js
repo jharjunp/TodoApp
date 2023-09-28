@@ -38,12 +38,21 @@ export const getLatestOutcomesPerRelay = async (args, context) => {
 
     // Extract the latest outcomes from the logs
     const latestOutcomes = relays.map((relay) => {
-      const latestLog = relay.Logs[0] // Assuming there is at least one log entry
-      return {
-        relayId: relay.id,
-        outcome: latestLog.outcome ? latestLog.outcome : false,
-        timeStamp: latestLog.timeStamp ? latestLog.timeStamp : "NA",
-      };
+      if (relay.Logs.lenght > 0) {
+        const latestLog = relay.Logs[0] 
+        return {
+          relayId: relay.id,
+          outcome: latestLog.outcome ? latestLog.outcome : false,
+          timeStamp: latestLog.timeStamp ? latestLog.timeStamp : "NA",
+        };
+    } else {
+        return {
+          relayId: relay.id,
+          outcome: false,
+          timeStamp: "NA",
+        }
+    }
+      
     });
 
     return latestOutcomes;
