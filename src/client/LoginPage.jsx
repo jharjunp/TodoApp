@@ -5,7 +5,6 @@ import { LoginForm } from '@wasp/auth/forms/Login'
 const LoginPage = ({ toggleOverlay, overlayVisible }) => {
   return (
     <>
-      <LoginForm />
       <br />
         <div className={`overlay ${overlayVisible ? 'visible' : ''}`}>
           <div className="overlay-content">

@@ -15,10 +15,8 @@ import {
       return x
     })
 
-    console.log("Chart kutsuttu!")
-
-    return (
-      <ResponsiveContainer width="100%" height={400}>
+     return (
+      <ResponsiveContainer width="100%" height={400} >
         <BarChart
           data={dataClean}
           margin={{

@@ -7,7 +7,11 @@ import Footer from './footer.jsx'
 import Steps from './steps.jsx'
 import Mission from './mission.jsx'
 import Chart from './chart.jsx'
+import ShowImage from './showImage.jsx'
+import RelayList from "./RelayList.jsx"
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'
+import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
+import getRelays from '@wasp/queries/getRelays'
 import './style.css'
 import './home.css'
 
@@ -15,7 +19,8 @@ const Home = (args) => {
 
   const { data: user } = useAuth()
   const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices)
-  //console.log(todaysPrices)
+  const { data: logs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay)
+  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays)
 
   return (
     <div className="home-container">
@@ -29,18 +34,8 @@ const Home = (args) => {
       <div className="home-banner">
         <Mission />
         <Steps />
-        <div className="home-gallery-card">
-          <div className="App">
-            {todaysPrices && <Chart dataset={todaysPrices} />}
-          </div>
-          {!todaysPrices && <img
-            alt="image"
-            src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDEyfHxmb3Jlc3R8ZW58MHx8fHwxNjI2MjUxMjg4&amp;ixlib=rb-1.2.1&amp;h=1200"
-            className="home-image1"
-          />}
-          <h2 className="home-text54">Project Title</h2>
-          <span className="home-text55">Lorem ipsum dolor sit amet</span>
-        </div>
+        {!user && <ShowImage />}
+        {user && <RelayList relays={relays} logs={logs}  />}
       </div>
       <Footer />
     </div>
@@ -49,3 +44,5 @@ const Home = (args) => {
 
 
 export default Home
+
+

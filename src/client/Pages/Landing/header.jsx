@@ -12,9 +12,9 @@ const Header = ({ args }) => {
     const toggleOverlay = () => {
         setOverlayVisible(!overlayVisible);
     };  
-    const doLogout = () => {
-        toggleOverlay()
-        logout()
+    const doLogout = async () => {
+        await logout()
+        setOverlayVisible(false)
     }
 
     return (
