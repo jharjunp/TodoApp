@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "strict": true,
+    //"noImplicitAny": false,
     // Wasp needs the following settings enable IDE support in your source
     // files. Editing them might break features like import autocompletion and
     // definition lookup. Don't change them unless you know what you're doing.
