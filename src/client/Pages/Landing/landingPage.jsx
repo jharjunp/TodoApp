@@ -9,7 +9,7 @@ import Mission from './mission.jsx'
 import Chart from './chart.jsx'
 import ShowImage from './showImage.jsx'
 import RelayList from "./RelayList.jsx"
-import LogViewer from "./logViewer.jsx"
+import LogViewer from "./LogViewer.jsx"
 import getLogs from '@wasp/queries/getLogs'
 import AddRelay from "./addRelay.jsx"
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'

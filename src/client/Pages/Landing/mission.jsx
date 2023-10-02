@@ -3,7 +3,7 @@
 const Mission = ({ args }) => {
     return (
         <div>
-            <h1 className="home-text09">Our Mission</h1>
+            <h1 className="home-text09">Reilu Rele</h1>
             <span className="home-text10">
             <span>
                 <span>

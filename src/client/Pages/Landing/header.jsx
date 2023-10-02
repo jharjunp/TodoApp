@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import LoginPage from '../../LoginPage.jsx'
 import logout from '@wasp/auth/logout'
 import useAuth from '@wasp/auth/useAuth'
+import imgUrl from './Images/ReiluRele_Logo.png'
 
 
 const Header = ({ args }) => {
@@ -21,7 +22,7 @@ const Header = ({ args }) => {
         <header data-thq="thq-navbar" className="home-navbar-interactive">
         <img
           alt="logo"
-          src="https://presentation-website-assets.teleporthq.io/logos/logo.png"
+          src={imgUrl}
           className="home-image"
         />
         <div data-thq="thq-navbar-nav" className="home-desktop-menu">

@@ -3,11 +3,12 @@
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: left;
   }
   
   h1 {
     color: #333;
+    text-align: center;
   }
   
   /* Style the tabs */
@@ -16,7 +17,7 @@
   }
   
   .nav-link {
-    color: #eb0000;
+    color: #0000CD;
     font-weight: bold;
   }
   
@@ -27,8 +28,6 @@
   
   /* Style the tab content */
   .tab-content {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-top: none;
+    overflow: hidden;
+    padding: 10px;
   }
-  
