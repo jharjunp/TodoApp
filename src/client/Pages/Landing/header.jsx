@@ -33,7 +33,7 @@ const Header = ({ args }) => {
           </nav>
           <div className="home-buttons">
             {!user && (<button className="home-login button" onClick={toggleOverlay} >Login</button>   )}
-            {user && (<button onClick={doLogout}>Logout</button>)}
+            {user && (<button className="home-login button" onClick={doLogout}>Logout</button>)}
             {overlayVisible && !user &&(
               <div className="overlay">
                   <LoginPage toggleOverlay={toggleOverlay} />

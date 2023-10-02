@@ -1,0 +1,34 @@
+.App {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  /* Style the tabs */
+  .nav-item {
+    margin-right: 15px;
+  }
+  
+  .nav-link {
+    color: #eb0000;
+    font-weight: bold;
+  }
+  
+  /* Style the active tab */
+  .nav-link.active {
+    color: #ffe600; /* Blue color for active tab */
+  }
+  
+  /* Style the tab content */
+  .tab-content {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  
