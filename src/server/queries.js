@@ -36,10 +36,15 @@ export const getLatestOutcomesPerRelay = async (args, context) => {
       },
     })
 
+    // relays.forEach(relay => {
+    //   console.log(relay.Logs[0])
+    // });
+    
     // Extract the latest outcomes from the logs
     const latestOutcomes = relays.map((relay) => {
-      if (relay.Logs.lenght > 0) {
-        const latestLog = relay.Logs[0] 
+      if (relay.Logs[0]) {
+        const latestLog = relay.Logs[0]
+        //console.log(latestLog) 
         return {
           relayId: relay.id,
           outcome: latestLog.outcome ? latestLog.outcome : false,
@@ -54,8 +59,8 @@ export const getLatestOutcomesPerRelay = async (args, context) => {
     }
       
     });
-
-    return latestOutcomes;
+    // console.log(latestOutcomes)
+    return latestOutcomes
   } catch (error) {
     throw new Error(`Error fetching latest outcomes: ${error.message}`);
   }

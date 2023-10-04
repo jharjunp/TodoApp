@@ -67,6 +67,7 @@ entity PriceData {=psl
 psl=}
 entity Relay {=psl
     id          Int     @id @default(autoincrement())
+    type        Int     @default(1)
     logic       Int     @default(1)
     description String
     hours       Int     @default(24)
@@ -77,7 +78,7 @@ entity Relay {=psl
     isOn        Boolean
     SetOn       Boolean
     deviceID    String  @unique
-    apiKey      String  @default("kokko")
+    apiKey      String
     Logs        Log[]
     user        User    @relation(fields: [userId], references: [id])
     userId      Int
