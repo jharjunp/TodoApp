@@ -120,29 +120,30 @@ const shellyPost = async (args, context) => {
     function handleFailedResponses(responses) {
       console.log('Failed Responses:')
       responses.forEach(async response => {
-        console.log(response)
-         const parsedError = parseAxiosError(response)
-        // const relayId = getRelayIdByDeviceID(parsedError.deviceID)
-        // const userID = getUserIdByRelayID(relayId)
-        // // Update the log -table.
-        // try {
-        //     const logged = await args.log.create({
-        //       data: {
-        //         timeStamp:  new Date(),
-        //         outcome:    false,
-        //         logEntry:   parsedError,
-        //         relay:      {
-        //             connect:    {id: relayId},
-        //         },
-        //         user:       {
-        //             connect:    {id: userID},
-        //         }
-        //       },
-        //     })
-        //   } catch (error) {
-        //     throw error
-        //   }
+        //console.log(response)
+        const parsedError = parseAxiosError(response)
         //console.log(parsedError)
+        const relayId = getRelayIdByDeviceID(parsedError.deviceID)
+        const userID = getUserIdByRelayID(relayId)
+        //console.log(relayId + " " + userID)
+        // Update the log -table.
+        try {
+            const logged = await args.log.create({
+              data: {
+                timeStamp:  new Date(),
+                outcome:    false,
+                logEntry:   parsedError,
+                relay:      {
+                    connect:    {id: relayId},
+                },
+                user:       {
+                    connect:    {id: userID},
+                }
+              },
+            })
+          } catch (error) {
+            throw error
+          }
       })
     }
 
@@ -171,9 +172,9 @@ const shellyPost = async (args, context) => {
         const status = error.response.status
         const statusText = error.response.statusText
         const responseData = error.response.data
-        const url = error.config.url
-        const parts = url.split('/')
-        const deviceID = parts[6]
+        const parts = error.config.data.split('&')
+        const id = parts[2]
+        const deviceID = id.split('=')[1]
         
         return {
           deviceID,

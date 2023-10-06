@@ -11,7 +11,7 @@ import ShowImage from './showImage.jsx'
 import RelayList from "./RelayList.jsx"
 import LogViewer from "./LogViewer.jsx"
 import getLogs from '@wasp/queries/getLogs'
-import AddRelay from "./addRelay.jsx"
+import AddRelay from './addRelay.jsx'
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'
 import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
 import getRelays from '@wasp/queries/getRelays'
@@ -41,6 +41,7 @@ const Home = (args) => {
         <Steps />
         {!user && <ShowImage />}
         {user && <RelayList relays={relays} logs={lastLogs}  />}
+        {user && <AddRelay />}
         {user && <LogViewer relays={relays} logs={allLogs}  />}
       </div>
       <Footer />
