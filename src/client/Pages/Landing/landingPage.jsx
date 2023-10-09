@@ -52,12 +52,12 @@ const Home = (args) => {
       <div className="home-banner">
         <Mission />
         {todaysPrices && <Chart dataset={todaysPrices}  />}
-        {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices}  />}
+        {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices}/>}
         <Steps />
         {!user && <ShowImage />}
-        {user && <RelayList relays={relays} logs={lastLogs}  />}
+        {user && relays && <RelayList relays={relays} logs={lastLogs}/>}
         {user && <AddRelay />}
-        {user && <LogViewer relays={relays} logs={allLogs}  />}
+        {user && <LogViewer relays={relays} logs={allLogs}/>}
       </div>
       <Footer />
     </div>

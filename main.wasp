@@ -116,6 +116,14 @@ action createRelay {
   fn: import { createRelay } from "@server/actions.js",
   entities: [Relay]
 }
+action editRelay {
+  fn: import { editRelay } from "@server/actions.js",
+  entities: [Relay]
+}
+action deleteRelay {
+  fn: import { deleteRelay } from "@server/actions.js",
+  entities: [Relay, Log]
+}
 action updatePrices {
   fn: import { updatePrices } from "@server/actions.js",
   entities: [PriceData]
