@@ -69,8 +69,8 @@ export const getLatestOutcomesPerRelay = async (args, context) => {
 export const getTodaysPrices = async (args, context) => {
   try {
     const today = DateTime.now().setZone('EET')
-    const startOfDayEET = today.startOf('day')
-    const endOfDayEET = today.endOf('day')
+    const startOfDayEET = today.startOf('day').plus({ days: args.offset})
+    const endOfDayEET = today.endOf('day').plus({ days: args.offset})
 
     const pricesToday = await context.entities.PriceData.findMany({
       where: {

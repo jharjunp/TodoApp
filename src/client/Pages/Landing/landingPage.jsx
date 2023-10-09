@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@wasp/queries'
 import useAuth from '@wasp/auth/useAuth'
 //import { Helmet } from 'react-helmet'
@@ -21,10 +21,24 @@ import './home.css'
 const Home = (args) => {
 
   const { data: user } = useAuth()
-  const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices)
+  const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices, ({ offset: 0}))
+  const { data: tomorrowsPrices, boolean: tomorrowsPricesLoading, error: error4 } = useQuery(getTodaysPrices, ({ offset: 1}))
   const { data: lastLogs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay)
   const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays)
   const { data: allLogs, boolean: allLogsLoading, error: allLogsError } = useQuery(getLogs)
+
+  const isSufficientDataForTomorrow = React.useMemo(() => {
+    if (!tomorrowsPrices) return false;
+
+    const dateSet = new Set();
+    tomorrowsPrices.forEach(item => {
+      const date = new Date(item.timeStamp);
+      const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`;
+      dateSet.add(key);
+    });
+
+    return dateSet.size >= 12;
+  }, [tomorrowsPrices]);
 
   return (
     <div className="home-container">
@@ -38,6 +52,7 @@ const Home = (args) => {
       <div className="home-banner">
         <Mission />
         {todaysPrices && <Chart dataset={todaysPrices}  />}
+        {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices}  />}
         <Steps />
         {!user && <ShowImage />}
         {user && <RelayList relays={relays} logs={lastLogs}  />}

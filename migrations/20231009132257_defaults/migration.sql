@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Relay" ALTER COLUMN "description" SET DEFAULT 'Uusi rele',
+ALTER COLUMN "isOn" SET DEFAULT false,
+ALTER COLUMN "SetOn" SET DEFAULT false,
+ALTER COLUMN "apiKey" SET DEFAULT '';

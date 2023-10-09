@@ -10,7 +10,21 @@ const AddRelay = () => {
     hours: 24,
     temp_1: 19,
     temp_2: 16,
+    deviceID: ''
   });
+
+  const resetForm = () => {
+    setIsFormVisible(false);
+    setStage(0);
+    setType('');
+    setLogic('');
+    setFormData({
+      hours: 24,
+      temp_1: 19,
+      temp_2: 16,
+      deviceID: ''
+    });
+  };
 
   useEffect(() => {
     if (type) {
@@ -35,16 +49,29 @@ const AddRelay = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let dataToSend = { type, logic };
+    if (!formData.deviceID) {
+      alert('deviceID is required.');
+      return;
+    }
+    let dataToSend = {
+      type: Number(type),
+      logic: Number(logic),
+      deviceID: formData.deviceID,
+      ...formData
+    };
     if (logic === '1') {
-      dataToSend.hours = formData.hours;
+      dataToSend.hours = Number(formData.hours);
     } else if (logic === '2') {
-      dataToSend = { ...dataToSend, ...formData };
+      dataToSend = {
+        ...dataToSend,
+        temp_1: Number(formData.temp_1),
+        temp_2: Number(formData.temp_2)
+      };
     }
     try {
       const response = await createRelay(dataToSend);
       console.log('New Relay entry created:', response.data);
-      // Reset form data as needed
+      resetForm();  // Reset the form and state here
     } catch (error) {
       console.error('Error creating Relay entry:', error);
     }
@@ -52,15 +79,7 @@ const AddRelay = () => {
 
   const handleCancel = () => {
     if (window.confirm("Are you sure you want to cancel?")) {
-      setIsFormVisible(false);
-      setStage(0);
-      setType('');
-      setLogic('');
-      setFormData({
-        hours: 24,
-        temp_1: 19,
-        temp_2: 16,
-      });
+      resetForm();  // Reset the form and state here
     }
   };
 
@@ -91,17 +110,29 @@ const AddRelay = () => {
             </div>
           )}
           {stage >= 3 && (
-            <div>
-              <label>Hours: </label>
-              <input
-                type="number"
-                name="hours"
-                min="0"
-                max="24"
-                value={formData.hours}
-                onChange={handleChange}
-              />
-            </div>
+            <>
+              <div>
+                <label>Hours: </label>
+                <input
+                  type="number"
+                  name="hours"
+                  min="0"
+                  max="24"
+                  value={formData.hours}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>deviceID: </label>
+                <input
+                  type="text"
+                  name="deviceID"
+                  value={formData.deviceID}
+                  onChange={handleChange}
+                  required  // This attribute ensures that the field is filled before form submission
+                />
+              </div>
+            </>
           )}
           {logic === '2' && (
             <>

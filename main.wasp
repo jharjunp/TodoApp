@@ -11,7 +11,8 @@ app TodoApp {
     ("bootstrap", "^5.3.2"),
     ("react-bootstrap", "^2.9.0"),
     ("react-helmet", "^6.1.0"),
-    ("react-transition-group", "^4.4.5")
+    ("react-transition-group", "^4.4.5"),
+    ("luxon", "^3.4.3")
   ],
 
   auth: {
@@ -69,16 +70,16 @@ entity Relay {=psl
     id          Int     @id @default(autoincrement())
     type        Int     @default(1)
     logic       Int     @default(1)
-    description String
+    description String  @default("Uusi rele")
     hours       Int     @default(24)
     temp_1      Int     @default(19)
     temp_2      Int     @default(16)
     price_1     Float   @default(3.0)
     price_2     Float   @default(10.0)
-    isOn        Boolean
-    SetOn       Boolean
+    isOn        Boolean @default(false)
+    SetOn       Boolean @default(false)
     deviceID    String  @unique
-    apiKey      String
+    apiKey      String  @default("")
     Logs        Log[]
     user        User    @relation(fields: [userId], references: [id])
     userId      Int

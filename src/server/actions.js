@@ -11,21 +11,12 @@ export const createRelay = async (args, context) => {
   if (!context.user) {
     throw new HttpError(401)
   }
+
+  const dataToSend = {...args}
+  dataToSend.user = { connect: { id: context.user.id } }
+  console.log(dataToSend)
   return context.entities.Relay.create({
-    data: {
-      logic: Number(args.logic),
-      description: args.description,
-      hours: Number(args.hours),
-      temp_1: Number(args.temp_1),
-      temp_2: Number(args.temp_2),
-      price_1: Number(args.price_1),
-      price_2: Number(args.price_2),
-      isOn: false,
-      SetOn: false,
-      deviceID: args.deviceID,
-      apiKey: args.apiKey,
-      user: { connect: { id: context.user.id } },
-    },
+    data: { ...dataToSend }
   })
 }
 
