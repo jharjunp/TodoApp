@@ -23,9 +23,10 @@ const Home = (args) => {
   const { data: user } = useAuth()
   const { data: todaysPrices, boolean: todaysPricesLoading, error: error3 } = useQuery(getTodaysPrices, ({ offset: 0}))
   const { data: tomorrowsPrices, boolean: tomorrowsPricesLoading, error: error4 } = useQuery(getTodaysPrices, ({ offset: 1}))
-  const { data: lastLogs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay)
-  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays)
-  const { data: allLogs, boolean: allLogsLoading, error: allLogsError } = useQuery(getLogs)
+
+  const { data: lastLogs, boolean: logsLoading, error: logsError } = useQuery(getLatestOutcomesPerRelay, { enabled: !!user })
+  const { data: relays, boolean: relaysLoading, error: error1 } = useQuery(getRelays, { enabled: !!user })
+  const { data: allLogs, boolean: allLogsLoading, error: allLogsError } = useQuery(getLogs, { enabled: !!user })
 
   const isSufficientDataForTomorrow = React.useMemo(() => {
     if (!tomorrowsPrices) return false;

@@ -38,9 +38,17 @@ export const deleteRelay = async (args, context) => {
   if (!context.user) {
     throw new HttpError(401)
   }
+  const relayToBeDeleted = await context.entities.Relay.findUnique({
+    where: { id: args}
+  })
+  if (relayToBeDeleted.userId != context.user.id) {
+    throw new HttpError(401)
+  }
+  console.log(relayToBeDeleted)
+  console.log(context.user)
   return context.entities.Relay.delete({
     where: {
-      id: args
+      id:     args,
     }
   })
 }

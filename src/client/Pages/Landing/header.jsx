@@ -3,6 +3,8 @@ import LoginPage from '../../LoginPage.jsx'
 import logout from '@wasp/auth/logout'
 import useAuth from '@wasp/auth/useAuth'
 import imgUrl from './Images/ReiluRele_Logo.png'
+import { SignupForm } from '@wasp/auth/forms/Signup'
+import { Link } from 'react-router-dom';
 
 
 const Header = ({ args }) => {
@@ -40,7 +42,9 @@ const Header = ({ args }) => {
                   <LoginPage toggleOverlay={toggleOverlay} />
               </div>
             )}
-            <button className="button">Register</button>
+            <span>
+              {!user && <Link to='/signup'>Rekisteröidy</Link>}
+            </span>
           </div>
         </div>
 

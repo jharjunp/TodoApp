@@ -89,7 +89,7 @@ entity Log {=psl
     timeStamp   DateTime
     outcome     Boolean  
     logEntry    Json
-    relay       Relay @relation(fields: [relayId], references: [id])
+    relay       Relay @relation(fields: [relayId], references: [id], onDelete: Cascade)
     relayId     Int
     user        User   @relation(fields: [userId], references: [id])
     userId      Int

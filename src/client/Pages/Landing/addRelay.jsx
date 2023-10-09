@@ -65,7 +65,8 @@ const AddRelay = () => {
       dataToSend = {
         ...dataToSend,
         temp_1: Number(formData.temp_1),
-        temp_2: Number(formData.temp_2)
+        temp_2: Number(formData.temp_2),
+        hours:  Number(formData.hours)
       };
     }
     try {

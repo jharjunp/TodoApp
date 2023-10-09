@@ -75,7 +75,7 @@ const RelayList = ({ relays, logs }) => {
                         <th>Ohjelma</th>
                         <th>Kuvaus</th>
                         <th>Tunnit</th>
-                        <th>Normaalilämpö</th>
+                        <th>Lämpötila</th>
                         <th>Alennettu lämpö</th>
                         <th>Device ID</th>
                         <th>API Avain</th>
