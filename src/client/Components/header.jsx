@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import LoginPage from '../../LoginPage.jsx'
+import LoginPage from '../Pages/LoginPage.jsx'
 import logout from '@wasp/auth/logout'
 import useAuth from '@wasp/auth/useAuth'
-import imgUrl from './Images/ReiluRele_Logo.png'
-import { SignupForm } from '@wasp/auth/forms/Signup'
+import imgUrl from '../Images/ReiluRele_Logo.png'
 import { Link } from 'react-router-dom';
 
 

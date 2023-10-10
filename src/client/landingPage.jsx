@@ -2,21 +2,22 @@ import React from 'react'
 import { useQuery } from '@wasp/queries'
 import useAuth from '@wasp/auth/useAuth'
 //import { Helmet } from 'react-helmet'
-import Header from './header.jsx'
-import Footer from './footer.jsx'
-import Steps from './steps.jsx'
-import Mission from './mission.jsx'
-import Chart from './chart.jsx'
-import ShowImage from './showImage.jsx'
-import RelayList from "./RelayList.jsx"
-import LogViewer from "./LogViewer.jsx"
+import Header from './Components/header.jsx'
+import Footer from './Components/footer.jsx'
+import Steps from './Components/steps.jsx'
+import Mission from './Components/mission.jsx'
+import Chart from './Components/chart.jsx'
+import ShowImage from './Components/showImage.jsx'
+import RelayList from "./Components/RelayList.jsx"
+import LogViewer from "./Components/LogViewer.jsx"
+import AddRelay from './Components/addRelay.jsx'
 import getLogs from '@wasp/queries/getLogs'
-import AddRelay from './addRelay.jsx'
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'
 import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
 import getRelays from '@wasp/queries/getRelays'
-import './style.css'
-import './home.css'
+import './Main.css'
+import './CSS/style.css'
+import './CSS/home.css'
 
 const Home = (args) => {
 

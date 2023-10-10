@@ -3,8 +3,8 @@ import { Transition } from 'react-transition-group'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './logViewer.css'
-import './LogEntry.css'
+import '../CSS/logViewer.css'
+import '../CSS/LogEntry.css'
 
 const LogViewer = ({ relays, logs }) => {
 
