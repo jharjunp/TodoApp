@@ -6,7 +6,7 @@ const Footer = ({ args }) => {
         <footer className="home-footer">
             <img
             alt="logo"
-            src="https://presentation-website-assets.teleporthq.io/logos/logo.png"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7tdrcaXseWgsBDhx6khE8qXRLvvXLsy3_7g&usqp=CAU"
             className="home-image2"
             />
             <span className="home-text56">

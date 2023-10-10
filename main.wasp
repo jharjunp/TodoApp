@@ -138,8 +138,7 @@ job dailyJob {
   },
   schedule: {
 //    cron: "* * * * *",
-    cron: "0 15,03 * * *", 
-    //args: {=json { "foo": "bar" } json=},
+    cron: "0 15,16,03 * * *", 
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}
     }
@@ -157,7 +156,6 @@ job hourlyJob {
   schedule: {
 //    cron: "* * * * *",
     cron: "1 * * * *",
-    //args: {=json { "foo": "bar" } json=},
     executorOptions: {
       pgBoss: {=json { "retryLimit": 0 } json=}
     }
