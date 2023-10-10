@@ -7,12 +7,9 @@ const Mission = ({ args }) => {
             <span className="home-text10">
             <span>
                 <span>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                volutpat turpis. Mauris luctus rutrum mi ut rhoncus. Integer in
-                dignissim tortor. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Sed non volutpat turpis. Mauris luctus rutrum mi
-                ut rhoncus. Integer in dignissim tortor. Sed non volutpat turpis.
-                Mauris luctus rutrum mi ut rhoncus. Integer in dignissim ortor.
+                Reilu Rele tarjoaa ratkaisun älykkääseen energiansäästöön ja -hallintaan.
+                Astu tulevaisuuteen
+                Säästä Energiaa, Säästä Rahaa, Ole Reilu!
                 </span>
             </span>
             </span>
