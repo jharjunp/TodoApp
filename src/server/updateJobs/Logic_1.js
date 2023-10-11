@@ -10,7 +10,7 @@ const updateLogic_1 = async (args, context) => {
     const turnOff = []
   
     relays.forEach(relay => {
-      if (relay.hours >= xHalvin && !relay.isOn) {  
+      if (relay.hours >= xHalvin) {  
         turnOn.push(relay.id)
       } else {
           turnOff.push(relay.id)

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const shellyPost = async (args, context) => {
-    const relays = await args.relay.findMany({ where: { type: 2 }, })
+    const relays = await args.relay.findMany({ where: { type: 1 }, })
     const turnOn = []
     const turnOff = []
     relays.forEach(relay => {

@@ -59,7 +59,7 @@ const Home = (args) => {
         {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices}/>}
         <Steps />
         {!user && <ShowImage />}
-        {user && relays && <RelayList relays={relays} logs={lastLogs}/>}
+        {user && relays && <RelayList relays={relays} logs={lastLogs} />}
         {user && <LogViewer relays={relays} logs={allLogs}/>}
       </div>
       <Footer />

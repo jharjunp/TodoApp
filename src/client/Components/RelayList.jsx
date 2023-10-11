@@ -99,7 +99,7 @@ const RelayList = ({ relays, logs }) => {
     return groups;
   }, [sortedRelays]);
 
-  if (!relays?.length) return <div>No relays</div>;
+  if (!relays?.length) return <div><h2>lisää ensimmäinen releesi</h2><AddRelay /></div>;
 
   return (
     <div className="flex flex-col">

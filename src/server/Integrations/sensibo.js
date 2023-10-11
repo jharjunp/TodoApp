@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const sensiboPost = async (args, context) => {
-    const relays = await args.relay.findMany({ where: { logic: 2 }, })
+    const relays = await args.relay.findMany({ where: { type: 2 }, })
     const turnOn = []
     const turnOff = []
     relays.forEach(relay => {
@@ -60,6 +60,7 @@ const sensiboPost = async (args, context) => {
         const deviceID = parts[6]
         const relayId = getRelayIdByDeviceID(deviceID)
         const userID = getUserIdByRelayID(relayId)
+        const relay = relays.find((relay) => relay.id === relayId)
         let logEntry = {
           StatusCode:   status,
           StatusText:   statusText,
@@ -88,7 +89,7 @@ const sensiboPost = async (args, context) => {
         try {
             const update = await args.relay.update({
               where: { id: relayId },
-              data: { isOn: data.result.acState.targetTemperature == relays.temp_2 }
+              data: { isOn: data.result.acState.targetTemperature == relay.temp_2 }
             })
         } catch (error) {
             throw error
