@@ -2,7 +2,7 @@ import getTodaysPrices from '@wasp/queries/getTodaysPrices.js'
 
 const updateLogic_2 = async (args, context) => {
     const relays = await args.relay.findMany({ where: { logic: 2 }, })
-    const hourlyPrices = await getTodaysPrices()
+    const hourlyPrices = await getTodaysPrices({ offset: 0})
     const xCostliest = hourlyPrices.sort((a, b) => b.price - a.price).map(getHour).findIndex(checkHour) + 1
     console.log('Now is the ' + xCostliest + ' most expensive hour of the day.' )
     const turnOn = []
