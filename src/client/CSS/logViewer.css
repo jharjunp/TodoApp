@@ -31,3 +31,39 @@
     overflow: hidden;
     padding: 10px;
   }
+
+  /* .button:hover {
+    background-color:#002ead;
+    transition: 0.7s;
+  }
+
+  .nav-tabs .nav-link {
+    background-color: grey !important;
+    color: #FF0000 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  } */
+
+.myTabs ul > li > a {
+    background-color: white;
+    color: red;
+}
+.myTabs ul > li > a:hover {
+    background-color: pink;
+}
+
+/* Active tab */
+.myTabs ul > li.active > a,
+.myTabs ul > li.active > a:hover,
+.myTabs ul > li.active > a:focus {
+    background-color: red;
+    color: white;
+}
+
+/* Disabled tab */
+.myTabs ul > li.disabled > a {
+    background-color: lightgray;
+    color: darkgray;
+}
+
