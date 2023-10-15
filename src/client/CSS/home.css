@@ -7,7 +7,7 @@
     justify-content: flex-center;
     justify-content: flex-center;
     background-color: #ffffff;
-  }  
+  }    
    
   .overlay {
     position: fixed;
@@ -341,6 +341,29 @@
     flex-direction: column;
     justify-content: center;
   }
+  .home-front-card {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .overlay-frontText {
+    position: absolute;
+    top: 42%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    color: Black; /* Change color based on your preference */
+    font-size: 3.5vw; /* Change font size based on your preference */
+    font-family: Josefin, Sans;
+  }
+  .home-frontImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .home-image1 {
     width: 90%;
     height: 90%;
@@ -535,7 +558,13 @@
       margin-right: 0px;
       margin-bottom: var(--dl-space-space-unit);
     }
-  } 
+    .home-frontImage {
+        height: 375px;
+    }
+    .overlay-frontText {
+      font-size: 7.2vw;
+    }
+} 
 
 
 
