@@ -44,22 +44,28 @@ const Home = (args) => {
 
   return (
     <div className="home-container">
-      {/* <Helmet>
-        <title>kWh</title>
-        <meta property="og:title" content="Crafty Heavy Echidna" />
-      </Helmet> */}
-      <div className="home-container1">
+      <div className="home-navbar-interactive">
         <Header />
       </div>
       <div className="home-banner">
         <Mission />
-        <h2>Hinnat tänään</h2>
+      </div>
+      <h2 className="home-text14">Hinnat tänään</h2>
+      <div>
         {todaysPrices && <Chart dataset={todaysPrices} />}
-        {isSufficientDataForTomorrow && <h2>Hinnat huomenna</h2>}
-        {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices}/>}
+      </div>
+      <div>
+        {isSufficientDataForTomorrow && <h2 className="home-text14">Hinnat huomenna</h2>}
+        {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices} />}
+      </div>
+      <div>
         <Steps />
+      </div>
+      <div>
         {!user && <ShowImage />}
         {user && relays && <RelayList relays={relays} logs={lastLogs} />}
+      </div>
+      <div className='home-steps'>
         {user && <LogViewer relays={relays} logs={allLogs}/>}
       </div>
       <Footer />

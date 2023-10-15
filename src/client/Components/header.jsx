@@ -34,8 +34,8 @@ const Header = ({ args }) => {
             <span className="home-text03">Team</span>
           </nav>
           <div className="home-buttons">
-            {!user && (<button className="home-login button" onClick={toggleOverlay} >Login</button>   )}
-            {user && (<button className="home-login button" onClick={doLogout}>Logout</button>)}
+            {!user && (<button className="home-login button" onClick={toggleOverlay} >Kirjaudu sisään</button>   )}
+            {user && (<button className="home-login button" onClick={doLogout}>Kirjaudu ulos</button>)}
             {overlayVisible && !user &&(
               <div className="overlay">
                   <LoginPage toggleOverlay={toggleOverlay} />
@@ -75,7 +75,7 @@ const Header = ({ args }) => {
             </nav>
             <div className="home-buttons1">
               <button className="home-login1 button">Login</button>
-              <button className="button">Register</button>
+              <button className="button">Rekisteröidy</button>
             </div>
           </div>
           <div>

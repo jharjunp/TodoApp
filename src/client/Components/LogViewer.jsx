@@ -14,7 +14,7 @@ const LogViewer = ({ relays, logs }) => {
 
   return (
     <div className="App">
-      <h1>Releittesi lokit</h1>
+      <h1 className='home-text14'>Releittesi lokit</h1>
       {relays && logs && <RenderTabs relays={relays} logs={logs} />}
     </div>
   )
@@ -48,7 +48,7 @@ const RenderTabs = ({ relays, logs }) => {
 
   return (
     <div className="App">
-      <Tabs id="controlled-tabs" activeKey={key} onSelect={(k) => setKey(k)}>
+      <Tabs id="controlled-tabs" className="myTabs" activeKey={key} onSelect={(k) => setKey(k)}>
         {relays.map((relay) => {
           const relayLogs = logs.filter((log) => log.relayId === relay.id);
           relayLogs.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
