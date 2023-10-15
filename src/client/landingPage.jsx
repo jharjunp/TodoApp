@@ -7,6 +7,7 @@ import Footer from './Components/footer.jsx'
 import Steps from './Components/steps.jsx'
 import Mission from './Components/mission.jsx'
 import Chart from './Components/chart.jsx'
+import ShowFrontImage from './Components/showFrontImage.jsx'
 import ShowImage from './Components/showImage.jsx'
 import RelayList from "./Components/RelayList.jsx"
 import LogViewer from "./Components/LogViewer.jsx"
@@ -46,6 +47,9 @@ const Home = (args) => {
     <div className="home-container">
       <div className="home-navbar-interactive">
         <Header />
+      </div>
+      <div>
+        <ShowFrontImage textLines={["Älykästä", "Energiansäästöä"]} />
       </div>
       <div className="home-banner">
         <Mission />
