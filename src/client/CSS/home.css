@@ -5,7 +5,10 @@
     align-items: center;
     flex-direction: column;
     justify-content: flex-center;
+    justify-content: flex-center;
     background-color: #ffffff;
+  }  
+   
   }  
    
   .overlay {
