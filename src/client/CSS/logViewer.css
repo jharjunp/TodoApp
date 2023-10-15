@@ -1,69 +1,82 @@
-.App {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    text-align: left;
-  }
-  
-  h1 {
-    color: #333;
-    text-align: center;
-  }
-  
-  /* Style the tabs */
-  .nav-item {
-    margin-right: 15px;
-  }
-  
-  .nav-link {
-    color: #0000CD;
-    font-weight: bold;
-  }
-  
-  /* Style the active tab */
-  .nav-link.active {
-    color: #ffe600; /* Blue color for active tab */
-  }
-  
-  /* Style the tab content */
-  .tab-content {
-    overflow: hidden;
-    padding: 10px;
-  }
+/* .App {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+} */
 
-  /* .button:hover {
-    background-color:#002ead;
-    transition: 0.7s;
-  }
-
-  .nav-tabs .nav-link {
-    background-color: grey !important;
-    color: #FF0000 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-  } */
-
-.myTabs ul > li > a {
-    background-color: white;
-    color: red;
+h1 {
+  color: #333;
+  text-align: center;
 }
-.myTabs ul > li > a:hover {
-    background-color: pink;
+
+/* Style the tabs */
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  color: #0000cd;
+  font-weight: bold;
+}
+
+/* Style the active tab */
+.nav-link.active {
+  color: #ffe600; /* Blue color for active tab */
+}
+
+/* Style the tab content */
+.tab-content {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.myTabs .nav-item .nav-link {
+  background-color: white;
+  color: red;
+}
+
+.myTabs .nav-item .nav-link:hover {
+  background-color: pink;
 }
 
 /* Active tab */
-.myTabs ul > li.active > a,
-.myTabs ul > li.active > a:hover,
-.myTabs ul > li.active > a:focus {
-    background-color: red;
-    color: white;
+.myTabs .nav-item.active .nav-link,
+.myTabs .nav-item.active .nav-link:hover,
+.myTabs .nav-item.active .nav-link:focus {
+  background-color: red;
+  color: white;
 }
 
 /* Disabled tab */
-.myTabs ul > li.disabled > a {
-    background-color: lightgray;
-    color: darkgray;
+.myTabs .nav-item.disabled .nav-link {
+  background-color: lightgray;
+  color: darkgray;
 }
 
+/* Initial state */
+.tab-content-transition-enter {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* Final state of entering (transition to this state) */
+.tab-content-transition-enter-active {
+  max-height: 2000px; /* or whatever max-height you prefer */
+  overflow: hidden;
+  transition: max-height 1000ms ease-in-out; /* duration and easing function */
+}
+
+/* Initial state of exiting (transition from this state) */
+.tab-content-transition-exit {
+  max-height: 2000px; /* or whatever max-height you prefer */
+  overflow: hidden;
+}
+
+/* Final state of exiting */
+.tab-content-transition-exit-active {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1000ms ease-in-out; /* duration and easing function */
+}
