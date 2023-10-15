@@ -1,12 +1,14 @@
  .home-container {
     width: 100%;
-    //display: flex;
     overflow: auto;
     min-height: 100vh;
     align-items: center;
     flex-direction: column;
     justify-content: flex-center;
+    justify-content: flex-center;
     background-color: #ffffff;
+  }  
+   
   }  
    
   .overlay {
@@ -86,12 +88,6 @@
   .home-text03 {
     margin-left: var(--dl-space-space-twounits);
   }
-  .home-buttons {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-  }
   .home-login {
     border-width: 0px;
     margin-right: var(--dl-space-space-twounits);
@@ -162,13 +158,6 @@
   .home-text08 {
     margin-bottom: var(--dl-space-space-unit);
   }
-  .home-buttons1 {
-    display: flex;
-    margin-top: var(--dl-space-space-unit);
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-  }
   .home-login1 {
     margin-right: var(--dl-space-space-twounits);
   }
@@ -213,6 +202,19 @@
   }
   .home-button:hover {
     transform: scale(1.02);
+  }
+  .home-buttons1 {
+    display: flex;
+    margin-top: var(--dl-space-space-unit);
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .home-buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
   }
   .home-steps {
     width: 100%;
