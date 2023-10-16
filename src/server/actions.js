@@ -20,6 +20,39 @@ export const createRelay = async (args, context) => {
   })
 }
 
+export const editRelay = async (args, context) => {
+  console.log(args)
+  if (!context.user) {
+    throw new HttpError(401)
+  }
+  return context.entities.Relay.update({
+    where: {
+      id: args.id
+    },
+    data: { ...args }
+  })
+}
+
+export const deleteRelay = async (args, context) => {
+  console.log(args)
+  if (!context.user) {
+    throw new HttpError(401)
+  }
+  const relayToBeDeleted = await context.entities.Relay.findUnique({
+    where: { id: args}
+  })
+  if (relayToBeDeleted.userId != context.user.id) {
+    throw new HttpError(401)
+  }
+  console.log(relayToBeDeleted)
+  console.log(context.user)
+  return context.entities.Relay.delete({
+    where: {
+      id:     args,
+    }
+  })
+}
+
 export const updatePrices = async (args, context) => {
   console.log('Fetching new prices...')
     axios

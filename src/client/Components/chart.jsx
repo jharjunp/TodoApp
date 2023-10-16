@@ -48,8 +48,8 @@ export default function Chart({ dataset }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={false} />
-        {isToday && <ReferenceLine x={currentHour} stroke="red" label={{ value: 'Current Hour', position: 'insideTop', dy: -20 }} />}
+        <Line name="hinta c/kWh" type="stepAfter" dataKey="price" stroke="#8884d8" dot={false} />
+        {isToday && <ReferenceLine x={currentHour} stroke="red" label={{ value: 'Aika nyt', position: 'insideTop', dy: -20 }} />}
       </LineChart>
     </ResponsiveContainer>
   );

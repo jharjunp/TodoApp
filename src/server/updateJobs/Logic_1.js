@@ -3,14 +3,14 @@ import getTodaysPrices from '@wasp/queries/getTodaysPrices.js'
 const updateLogic_1 = async (args, context) => {
 
     const relays = await args.relay.findMany({ where: { logic: 1 }, })
-    const vuorokaudenHinnat = await getTodaysPrices()
+    const vuorokaudenHinnat = await getTodaysPrices({ offset: 0})
     const xHalvin = vuorokaudenHinnat.sort((a, b) => a.price - b.price).map(getHour).findIndex(checkHour) + 1
     console.log('Now is the ' + xHalvin + ' cheapest hour of the day.' )
     const turnOn = []
     const turnOff = []
   
     relays.forEach(relay => {
-      if (relay.hours >= xHalvin && !relay.isOn) {  
+      if (relay.hours >= xHalvin) {  
         turnOn.push(relay.id)
       } else {
           turnOff.push(relay.id)
