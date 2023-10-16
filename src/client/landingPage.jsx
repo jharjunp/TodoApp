@@ -49,7 +49,7 @@ const Home = (args) => {
         <Header />
       </div>
       <div>
-        <ShowFrontImage textLines={["Älykästä", "Energiansäästöä"]} />
+        <ShowFrontImage textLines={["Älykkäästi", "Energiansäästöä"]} />
       </div>
       <div className="home-banner">
         <Mission />
