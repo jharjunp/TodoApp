@@ -54,7 +54,7 @@ const Home = (args) => {
       <div className="home-banner">
         <Mission />
       </div>
-      <h2 className="home-text14">Hinnat tänään</h2>
+      <h2 className="home-text14">Hinna tänään</h2>
       <div>
         {todaysPrices && <Chart dataset={todaysPrices} />}
       </div>
