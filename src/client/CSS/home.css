@@ -1,9 +1,9 @@
  .home-container {
     width: 100%;
-    overflow: auto;
+    //overflow: auto;
     min-height: 100vh;
     align-items: center;
-    justify-content: flex-center;
+    justify-content: center;
     background-color: #ffffff;
   }    
    
@@ -54,11 +54,15 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: var(--dl-space-space-halfunit);
+    padding-top: var(--dl-space-space-quarterunit);
     padding-left: var(--dl-space-space-threeunits);
     padding-right: var(--dl-space-space-threeunits);
-    padding-bottom: var(--dl-space-space-halfunit);
+    padding-bottom: var(--dl-space-space-quarterunit);
     justify-content: space-between;
+    position: sticky;  
+    top: 0;            
+    z-index: 1000;     
+    background-color: inherit;  
   }
   .home-image {
     height: 4rem;

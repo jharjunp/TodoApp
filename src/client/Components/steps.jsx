@@ -6,7 +6,7 @@ const Steps = ({ args }) => {
       </h2>
       <div className="home-container2">
         <div className="home-container3">
-          <div className="home-step">
+          <div className="home-step">       
             <h1 className="home-text16">
               <span>1</span>
             </h1>
