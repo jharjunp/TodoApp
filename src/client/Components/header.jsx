@@ -1,21 +1,27 @@
 import React, { useState } from "react";
 import LoginPage from "../Pages/LoginPage.jsx";
+import SignupPage from "../Pages/SignupPage.jsx";
 import logout from "@wasp/auth/logout";
 import useAuth from "@wasp/auth/useAuth";
 import imgUrl from "../Images/ReiluRele_Logo.png";
-import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
 const Header = ({ args }) => {
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const [signupOverlayVisible, setSignupOverlayVisible] = useState(false);
   const { data: user } = useAuth();
 
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
+
+  const toggleSignupOverlay = () => {
+    setSignupOverlayVisible(!signupOverlayVisible);
+  };
+
   const doLogout = async () => {
     await logout();
-    setOverlayVisible(false)
+    setOverlayVisible(false);
   };
 
   return (
@@ -25,21 +31,24 @@ const Header = ({ args }) => {
         <nav className="home-links">
           <span>About</span>
           <span className="home-text01">Features</span>
-          <span className="home-text02">Pricing</span>
-          <span className="home-text03">Team</span>
-        </nav>
-        <div className="home-buttons">
+          <span className="home-text01home-text02">Pricing</span>
+          <span className="home-text01">Team</span>
+
           {!user && (
             <button
-              className="bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
+              className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
               onClick={toggleOverlay}
-            >Kirjaudu sisään</button>
+            >
+              Kirjaudu sisään
+            </button>
           )}
           {user && (
             <button
-              className="bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
+              className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
               onClick={doLogout}
-            >Kirjaudu ulos</button>
+            >
+              Kirjaudu ulos
+            </button>
           )}
           {overlayVisible && !user && (
             <div className="overlay">
@@ -49,13 +58,20 @@ const Header = ({ args }) => {
           <div className="home-buttons">
             {!user && (
               <button
-                className="bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
-                onClick="location.href='/signup'" type="button"
-              >Rekisteröidy</button>
+                onClick={toggleSignupOverlay}
+                className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300 inline-block"
+              >
+                Rekisteröidy
+              </button>
             )}
           </div>
-          <span>{!user && <Link to="/signup">Rekisteröidy</Link>}</span>
-        </div>
+
+          {signupOverlayVisible && !user && (
+            <div className="overlay">
+              <SignupPage toggleSignupOverlay={toggleSignupOverlay} />
+            </div>
+          )}
+        </nav>
       </div>
 
       <div data-thq="thq-burger-menu" className="home-burger-menu">
