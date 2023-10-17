@@ -15,7 +15,7 @@ const Header = ({ args }) => {
   };
   const doLogout = async () => {
     await logout();
-    setOverlayVisible(false);
+    setOverlayVisible(false)
   };
 
   return (
