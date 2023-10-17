@@ -1,6 +1,6 @@
 const Footer = ({ args }) => {
   return (
-    <footer className="home-footer">
+    <footer className="home-links">
       {/* <img
         alt="logo"
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7tdrcaXseWgsBDhx6khE8qXRLvvXLsy3_7g&usqp=CAU"

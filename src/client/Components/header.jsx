@@ -26,44 +26,47 @@ const Header = ({ args }) => {
 
   return (
     <header data-thq="thq-navbar" className="home-navbar-interactive">
-      <img alt="logo" src={imgUrl} className="home-image" />
       <div data-thq="thq-navbar-nav" className="home-desktop-menu">
         <nav className="home-links">
-          <span>About</span>
-          <span className="home-text01">Features</span>
-          <span className="home-text01home-text02">Pricing</span>
-          <span className="home-text01">Team</span>
-
-          {!user && (
-            <button
-              className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
-              onClick={toggleOverlay}
-            >
-              Kirjaudu sisään
-            </button>
-          )}
-          {user && (
-            <button
-              className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
-              onClick={doLogout}
-            >
-              Kirjaudu ulos
-            </button>
-          )}
-          {overlayVisible && !user && (
-            <div className="overlay">
-              <LoginPage toggleOverlay={toggleOverlay} />
-            </div>
-          )}
-          <div className="home-buttons">
+          <img alt="logo" src={imgUrl} className="home-image-logo" />
+          <div className="home-icon-group1">
+            <span>About</span>
+            <span className="home-text01">Features</span>
+            <span className="home-text01">Pricing</span>
+            <span className="home-text01">Team</span>
+          </div>
+          <div className="home-icon-group1">
             {!user && (
               <button
-                onClick={toggleSignupOverlay}
-                className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300 inline-block"
+                className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300 "
+                onClick={toggleOverlay}
               >
-                Rekisteröidy
+                Kirjaudu sisään
               </button>
             )}
+            {user && (
+              <button
+                className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
+                onClick={doLogout}
+              >
+                Kirjaudu ulos
+              </button>
+            )}
+            {overlayVisible && !user && (
+              <div className="overlay">
+                <LoginPage toggleOverlay={toggleOverlay} />
+              </div>
+            )}
+            <div className="home-buttons">
+              {!user && (
+                <button
+                  onClick={toggleSignupOverlay}
+                  className="home-text01 bg-blue-500 text-white px-2 py-2 rounded shadow hover:bg-blue-700 transition duration-300 inline-block"
+                >
+                  Rekisteröidy
+                </button>
+              )}
+            </div>
           </div>
 
           {signupOverlayVisible && !user && (
