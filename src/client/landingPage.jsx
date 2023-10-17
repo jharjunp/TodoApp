@@ -7,7 +7,6 @@ import Footer from './Components/footer.jsx'
 import Steps from './Components/steps.jsx'
 import Mission from './Components/mission.jsx'
 import Chart from './Components/chart.jsx'
-import ShowFrontImage from './Components/showFrontImage.jsx'
 import ShowImage from './Components/showImage.jsx'
 import RelayList from "./Components/RelayList.jsx"
 import LogViewer from "./Components/LogViewer.jsx"
@@ -48,25 +47,31 @@ const Home = (args) => {
       <div className="home-navbar-interactive">
         <Header />
       </div>
-      <div>
-        <ShowFrontImage textLines={["Älykästä", "Energiansäästöä"]} />
+      <div className="home-Image1">
+        <ShowImage imageName={"Aloituskuva.png"} textLines={["Älykästä", "Energiansäästöä"]} />
+      </div>
+      <div className="home-Image2">
+        <h1 className="home-text">
+          <span>Kotisi Älykäs Energiaohjaus</span>
+        </h1>
+        <ShowImage imageName={"Kuva2.png"} textLines={["Tervetuloa mukaan energiavallankumoukseen! Meidän avullamme voit ohjata kotisi energiankulutusta - ei vain säästääksesi rahaa, vaan myös tehdäksesi ympäristölle palveluksen. Kuinka? Ohjelmamme hyödyntää", "Nordpool-sähköpörssin reaaliaikaista dataa varmistaakseen, että kotisi energiankulutus tapahtuu silloin, kun se on kaikkein ekologisinta ja edullisinta - eli kun uusiutuvan energian osuus on suurimmillaan."]} />
       </div>
       <div className="home-banner">
         <Mission />
       </div>
-      <h2 className="home-text14">Hinnat tänään</h2>
+      <h1 className="home-text14">Hinnat tänään</h1>
       <div>
         {todaysPrices && <Chart dataset={todaysPrices} />}
       </div>
       <div>
-        {isSufficientDataForTomorrow && <h2 className="home-text14">Hinnat huomenna</h2>}
+        {isSufficientDataForTomorrow && <h1 className="home-text14">Hinnat huomenna</h1>}
         {isSufficientDataForTomorrow && <Chart dataset={tomorrowsPrices} />}
       </div>
       <div>
         <Steps />
       </div>
-      <div>
-        {!user && <ShowImage />}
+      <div className="home-Image1">
+        {!user && <ShowImage imageName={"RelayList.png"} textLines={[]}/>}
         {user && relays && <RelayList relays={relays} logs={lastLogs} />}
       </div>
       <div className='home-steps'>
