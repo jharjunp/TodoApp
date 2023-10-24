@@ -1,4 +1,7 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useQuery } from "@wasp/queries";
+import getLogs from "@wasp/queries/getLogs";
+import getRelays from "@wasp/queries/getRelays";
 import { CSSTransition } from "react-transition-group";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -6,15 +9,35 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/logViewer.css";
 import "../CSS/LogEntry.css";
 
-const LogViewer = ({ relays, logs }) => {
-  // Assuming logs contain log entries for the past two weeks.
+const LogViewer = ({ args }) => {
+  const {
+    data: relays,
+    isLoading: relaysLoading,
+    error: error1,
+  } = useQuery(getRelays);
+  const {
+    data: logs,
+    isLoading: logsLoading,
+    error: logsError,
+  } = useQuery(getLogs);
+
   const twoWeeksAgo = new Date();
   twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
   return (
     <div className="App">
-      <h1 className="home-text14">Releittesi lokit</h1>
-      {relays && logs && <RenderTabs relays={relays} logs={logs} />}
+      <div>
+        {relaysLoading && "Loading relays..."}
+        {error1 && "Error: " + error1}
+        {logsLoading && "Loading logs..."}
+        {logsError && "Error: " + logsError}
+      </div>
+      {relays && logs && (
+        <div>
+          <h1 className="home-text14">Releittesi lokit</h1>
+          {relays && logs && <RenderTabs relays={relays} logs={logs} />}
+        </div>
+      )}
     </div>
   );
 };
@@ -22,7 +45,14 @@ const LogViewer = ({ relays, logs }) => {
 const RenderTabs = ({ relays, logs }) => {
   const [activeKey, setActiveKey] = useState("tab1"); // New state to manage the active tab
   const [openRelays, setOpenRelays] = useState({}); // Separate state to manage open/closed state of tabs
-  const nodeRef = useRef(null);
+  const nodeRefs = useRef({});
+
+  useEffect(() => {
+    relays.forEach((relay) => {
+      nodeRefs.current[relay.id] =
+        nodeRefs.current[relay.id] || React.createRef();
+    });
+  }, [relays]);
 
   const handleTabSelect = (selectedKey) => {
     const relayId = selectedKey.replace("tab", "");
@@ -60,12 +90,11 @@ const RenderTabs = ({ relays, logs }) => {
         activeKey={activeKey}
         onSelect={handleTabSelect}
       >
-        {relays.map((relay) => {
+        {relays.map((relay, index) => {
           const relayLogs = logs.filter((log) => log.relayId === relay.id);
           relayLogs.sort(
             (a, b) => new Date(b.timeStamp) - new Date(a.timeStamp)
           );
-          const nodeRef = useRef(null); // Moved inside the map function
 
           return (
             <Tab
@@ -81,10 +110,10 @@ const RenderTabs = ({ relays, logs }) => {
                 in={openRelays[relay.id]}
                 timeout={duration}
                 classNames="tab-content-transition"
-                nodeRef={nodeRef} // Ensure nodeRef is passed here
+                nodeRef={nodeRefs.current[relay.id]}
                 unmountOnExit
               >
-                <div ref={nodeRef} className="tab-content">
+                <div ref={nodeRefs.current[relay.id]} className="tab-content">
                   {relayLogs.map((log, index) => (
                     <div key={index} className="log-entry">
                       <h4>{log.timeStamp.toLocaleString()}</h4>
