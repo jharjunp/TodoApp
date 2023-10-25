@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import createRelay from "@wasp/actions/createRelay";
+import { Step1 } from "./Step1";
+import { Step2 } from "./Step2";
+import { Step3 } from "./Step3";
 
 const AddRelay = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -84,94 +87,51 @@ const AddRelay = () => {
     }
   };
 
+  const isFormComplete = () => {
+    if (!type || !logic || !formData.deviceID) return false;
+    if (logic === "2" && (!formData.temp_1 || !formData.temp_2)) return false;
+    return true;
+  };
+
+  const steps = [
+    <Step1 type={type} setType={setType} />,
+    <Step2 type={type} logic={logic} setLogic={setLogic} />,
+    <Step3 logic={logic} formData={formData} setFormData={setFormData} />,
+    // ... other steps
+  ];
+
   return (
     <div className="add-relay p-4 bg-white rounded shadow-lg">
       {!isFormVisible ? (
-        <button 
-          onClick={() => { setIsFormVisible(true); setStage(1); }} 
+        <button
+          onClick={() => {
+            setIsFormVisible(true);
+            setStage(1);
+          }}
           className="bg-blue-500 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
         >
           Lisää uusi rele
         </button>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          {stage >= 1 && (
-            <div className="flex items-center">
-              <label className="w-20">Malli: </label>
-              <select name="type" value={type} onChange={handleChange} className="border border-gray-300 p-2 rounded">
-                <option value="" disabled>Releen malli</option>
-                <option value={1}>Shelly</option>
-                <option value={2}>Sensibo</option>
-              </select>
-            </div>
-          )}
-          {stage >= 2 && (
-            <div className="flex items-center">
-              <label className="w-20">Ohjelma: </label>
-              <select name="logic" value={logic} onChange={handleChange} className="border border-gray-300 p-2 rounded">
-                <option value="" disabled>Valitse ohjelma</option>
-                {type === '1' && <option value={1}>On-Off</option>}
-                {type === '2' && [<option key={1} value={1}>On-Off</option>, <option key={2} value={2}>High-Low</option>]}
-              </select>
-            </div>
-          )}
-          {stage >= 3 && (
-            <>
-              <div className="flex items-center">
-                <label className="w-20">Tunnit: </label>
-                <input
-                  type="number"
-                  name="hours"
-                  min="0"
-                  max="24"
-                  value={formData.hours}
-                  onChange={handleChange}
-                  className="border border-gray-300 p-2 rounded"
-                />
-              </div>
-              <div className="flex items-center">
-                <label className="w-20">deviceID: </label>
-                <input
-                  type="text"
-                  name="deviceID"
-                  value={formData.deviceID}
-                  onChange={handleChange}
-                  required
-                  className="border border-gray-300 p-2 rounded"
-                />
-              </div>
-            </>
-          )}
-          {logic === '2' && (
-            <>
-              <div className="flex items-center">
-                <label className="w-20">Lämpötila: </label>
-                <input
-                  type="number"
-                  name="temp_1"
-                  value={formData.temp_1}
-                  onChange={handleChange}
-                  className="border border-gray-300 p-2 rounded"
-                />
-              </div>
-              <div className="flex items-center">
-                <label className="w-20">Alennettu lämpö: </label>
-                <input
-                  type="number"
-                  name="temp_2"
-                  value={formData.temp_2}
-                  onChange={handleChange}
-                  className="border border-gray-300 p-2 rounded"
-                />
-              </div>
-            </>
-          )}
-          {logic && (
-            <div className="flex space-x-4">
-              <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition duration-300">Add Relay Entry</button>
-              <button type="button" onClick={handleCancel} className="bg-red-500 text-white px-6 py-2 rounded shadow hover:bg-red-700 transition duration-300">Cancel</button>
-            </div>
-          )}
+          {steps[stage - 1]}
+          <div className="flex space-x-4">
+            {isFormComplete() && (
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
+              >
+                Add Relay Entry
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-red-500 text-white px-6 py-2 rounded shadow hover:bg-red-700 transition duration-300"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
     </div>

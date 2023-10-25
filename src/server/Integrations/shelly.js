@@ -1,169 +1,116 @@
 import axios from "axios";
 
+const createRequest = (relay, action) => {
+  const postData = new URLSearchParams({
+    channel: 0,
+    turn: action,
+    id: relay.deviceID,
+    auth_key: relay.apiKey,
+  }).toString();
+
+  return axios
+    .post("https://shelly-77-eu.shelly.cloud/device/relay/control", postData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+    .catch((error) => error);
+};
+
+async function handleResponse(response, relay, args) {
+  const relayId = relay.id;
+  const userID = relay.userId;
+  const logData = {
+    timeStamp: new Date(),
+    relay: { connect: { id: relayId } },
+    user: { connect: { id: userID } },
+  };
+
+  if (response instanceof Error) {
+    const parsedError = parseAxiosError(response);
+    logData.outcome = false;
+    logData.logEntry = parsedError;
+  } else {
+    const { status, statusText, data } = response;
+    logData.outcome = true;
+    logData.logEntry = {
+      StatusCode: status,
+      StatusText: statusText,
+      ResponseData: data,
+    };
+
+    const action = new URLSearchParams(response.config.data).get("turn");
+    const isOn = action === "on";
+
+    try {
+      await args.relay.update({
+        where: { id: relayId },
+        data: { isOn },
+      });
+    } catch (error) {
+      console.error("Error updating relay:", error.message);
+    }
+  }
+
+  try {
+    await args.log.create({ data: logData });
+  } catch (error) {
+    console.error("Error logging response:", error.message);
+  }
+}
+
 const shellyPost = async (args, context) => {
   const relays = await args.relay.findMany({ where: { type: 1 } });
-  const turnOn = [];
-  const turnOff = [];
-  relays.forEach((relay) => {
-    if (relay.SetOn && !relay.isOn) {
-      turnOn.push(relay);
-    } else if (!relay.SetOn && relay.isOn) {
-      turnOff.push(relay);
-    }
-  });
-  const requests = [];
 
-  function createRequest(relay, action) {
-    const postData = new URLSearchParams({
-      channel: 0,
-      turn: action,
-      id: relay.deviceID,
-      auth_key: relay.apiKey,
-    }).toString();
+  const turnOn = relays.filter((relay) => relay.SetOn && !relay.isOn);
+  const turnOff = relays.filter((relay) => !relay.SetOn && relay.isOn);
 
-    return axios.post(
-      "https://shelly-77-eu.shelly.cloud/device/relay/control",
-      postData,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-  }
+  const requests = [
+    ...turnOn.map((relay) => createRequest(relay, "on")),
+    ...turnOff.map((relay) => createRequest(relay, "off")),
+  ];
 
-  turnOn.forEach((relay) => requests.push(createRequest(relay, "on")));
-  turnOff.forEach((relay) => requests.push(createRequest(relay, "off")));
+  const responses = await Promise.allSettled(requests);
 
-  axios
-    .all(requests.map((promise) => promise.catch((error) => error)))
-    .then((responses) => {
-      const successfulResponses = [];
-      const failedResponses = [];
-
-      responses.forEach((resp) => {
-        if (resp instanceof Error) {
-          failedResponses.push(resp);
-        } else {
-          successfulResponses.push(resp);
-        }
-      });
-      try {
-        handleSuccessfulResponses(successfulResponses);
-        handleFailedResponses(failedResponses);
-      } catch (error) {
-        console.error(error);
-      }
-    });
-
-  function handleSuccessfulResponses(responses) {
-    console.log("Successful Responses:");
-    responses.forEach(async (resp) => {
-      const { status, statusText, config, data } = resp;
-      const parts = config.data.split("&");
-      const id = parts[2];
-      const deviceID = id.split("=")[1];
-      const relayId = getRelayIdByDeviceID(deviceID);
-      const userID = getUserIdByRelayID(relayId);
-      let logEntry = {
-        StatusCode: status,
-        StatusText: statusText,
-        ResponseData: data,
-      };
-
-      //Update the log -table.
-         const logged = await args.log.create({
-          data: {
-            timeStamp: new Date(),
-            outcome: true,
-            logEntry: logEntry,
-            relay: {
-              connect: { id: relayId },
-            },
-            user: {
-              connect: { id: userID },
-            },
-          },
-        });
-      // Update the isOn -information on the Relay -table. Rule is on if the temp_2 is set.
-        const update = await args.relay.update({
-          where: { id: relayId },
-          data: { isOn: parts[1] == "turn=on" ? true : false },
-        });
-    });
-  }
-
-  function handleFailedResponses(responses) {
-    responses.forEach(async (response) => {
-      const parsedError = parseAxiosError(response);
-      const relayId = getRelayIdByDeviceID(parsedError.deviceID);
-      const userID = getUserIdByRelayID(relayId);
-        const logged = await args.log.create({
-          data: {
-            timeStamp: new Date(),
-            outcome: false,
-            logEntry: parsedError,
-            relay: {
-              connect: { id: relayId },
-            },
-            user: {
-              connect: { id: userID },
-            },
-          },
-        });
-    });
-  }
-
-  function getRelayIdByDeviceID(deviceID) {
-    const relay = relays.find((relay) => relay.deviceID === deviceID);
-    if (relay) {
-      return relay.id;
-    } else {
-      return null;
-    }
-  }
-
-  function getUserIdByRelayID(relayID) {
-    const relay = relays.find((relay) => relay.id === relayID);
-    //console.log("UserId: " + relay.userId)
-    if (relay) {
-      return relay.userId;
-    } else {
-      return null;
-    }
-  }
-
-  function parseAxiosError(error) {
-    if (error.response) {
-      // The request was made, but the server responded with an error status
-      const status = error.response.status;
-      const statusText = error.response.statusText;
-      const responseData = error.response.data;
-      const parts = error.config.data.split("&");
-      const id = parts[2];
-      const deviceID = id.split("=")[1];
-
-      return {
-        deviceID,
-        status,
-        statusText,
-        responseData,
-      };
-    } else if (error.request) {
-      // The request was made, but no response was received
-      // This can happen if the server is unreachable
-      return {
-        status: "Request Failed",
-        message: "No response received from the server.",
-      };
-    } else {
-      // Something else went wrong while setting up the request
-      return {
-        status: "Request Error",
-        message: error.message,
-      };
-    }
+  for (let i = 0; i < responses.length; i++) {
+    const response = responses[i];
+    const isTurnOn = i < turnOn.length;
+    const relay = isTurnOn ? turnOn[i] : turnOff[i - turnOn.length];
+    await handleResponse(response.value, relay, args);
   }
 };
+
+function parseAxiosError(error) {
+  console.log("Shelly: " + error.config.data);
+  if (error.response) {
+    // The request was made, but the server responded with an error status
+    const status = error.response.status;
+    const statusText = error.response.statusText;
+    const responseData = error.response.data;
+    const parts = error.config.data.split("&");
+    const id = parts[2];
+    const deviceID = id.split("=")[1];
+
+    return {
+      deviceID,
+      status,
+      statusText,
+      responseData,
+    };
+  } else if (error.request) {
+    // The request was made, but no response was received
+    // This can happen if the server is unreachable
+    return {
+      status: "Request Failed",
+      message: "No response received from the server.",
+    };
+  } else {
+    // Something else went wrong while setting up the request
+    return {
+      status: "Request Error",
+      message: error.message,
+    };
+  }
+}
 
 export default shellyPost;
