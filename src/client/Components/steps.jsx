@@ -1,3 +1,5 @@
+import ShowImage from './showImage.jsx'
+
 const Steps = ({ args }) => {
   return (
     <div className="home-steps">
@@ -6,68 +8,58 @@ const Steps = ({ args }) => {
       </h2>
       <div className="home-container2">
         <div className="home-container3">
-          <div className="home-step">
+          <div className="home-step">     
+            <ShowImage imageName={"Steps1.png"} textLines={[]} />  
             <h1 className="home-text16">
               <span>1</span>
             </h1>
             <h1 className="home-text18">
-              <span></span>
               <span>Concept</span>
             </h1>
             <span className="home-text21">
-              <span></span>
-              <span></span>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
               <br></br>
-              <span></span>
             </span>
           </div>
-          <div className="home-step1">
+          <div className="home-step">
+            <ShowImage imageName={"Steps2.png"} textLines={[]} /> 
             <h1 className="home-text26">
               <span>2</span>
             </h1>
-            <h1 className="home-text28">
+            <h1 className="home-text18">
               <span>Prototype</span>
             </h1>
             <span className="home-text30">
-              <span></span>
-              <span></span>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
               <br></br>
-              <span></span>
             </span>
           </div>
         </div>
         <div className="home-container4">
-          <div className="home-step2">
+          <div className="home-step">
+            <ShowImage imageName={"Steps3.png"} textLines={[]} /> 
             <h1 className="home-text35">
               <span>3</span>
             </h1>
-            <h1 className="home-text37">
-              <span>P</span>
-              <span>roduction</span>
+            <h1 className="home-text18">
+              <span>Production</span>
             </h1>
             <span className="home-text40">
-              <span></span>
-              <span></span>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
               <br></br>
-              <span></span>
             </span>
           </div>
-          <div className="home-step3">
+          <div className="home-step">
+            <ShowImage imageName={"Steps4.png"} textLines={[]} /> 
             <h1 className="home-text45">
               <span>4</span>
             </h1>
-            <h1 className="home-text47">
+            <h1 className="home-text18">
               <span>Shipping</span>
             </h1>
             <span className="home-text49">
-              <span></span>
-              <span></span>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
               <br></br>
-              <span></span>
             </span>
           </div>
         </div>

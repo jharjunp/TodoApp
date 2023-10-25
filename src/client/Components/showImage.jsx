@@ -1,13 +1,22 @@
-import imgUrl from "../Images/RelayList.png";
+import '../CSS/home.css';
 
-const ShowImage = ({ args }) => {
+const ShowImage = ({ imageName, textLines }) => {
+  const imgUrl = getImageUrl(imageName)
+  
   return (
-    <div className="home-gallery-card">
-      <img alt="image" src={imgUrl} className="home-image1" />
-      <h2 className="home-text54">Project Title</h2>
-      <span className="home-text55">Lorem ipsum dolor sit amet</span>
+    <div className="home-card">
+      <img alt="image" src={imgUrl} className="home-image" />
+      <div className="home-overlay-text">
+        {textLines.map((line, index) => (
+          <div key={index}>{line}</div>
+        ))}
+      </div>
     </div>
   );
 };
+
+function getImageUrl(name) {
+  return new URL(`../Images/${name}`, import.meta.url).href
+}
 
 export default ShowImage;
