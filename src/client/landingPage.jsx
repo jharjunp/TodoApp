@@ -10,7 +10,7 @@ import Chart from './Components/chart.jsx'
 import ShowImage from './Components/showImage.jsx'
 import RelayList from "./Components/RelayList.jsx"
 import LogViewer from "./Components/LogViewer.jsx"
-import AddRelay from './Components/addRelay.jsx'
+import CookieBot from "./Components/cookiebot.jsx"
 import getLogs from '@wasp/queries/getLogs'
 import getTodaysPrices from '@wasp/queries/getTodaysPrices'
 import getLatestOutcomesPerRelay from '@wasp/queries/getLatestOutcomesPerRelay'
@@ -68,6 +68,9 @@ const Home = (args) => {
       </div>
       <div className="home-Image1">
         <ShowImage imageName={"Aloituskuva.png"} textLines={["Älykästä", "Energiansäästöä"]} />
+      </div>
+      <div>
+        <CookieBot/>
       </div>
       <div className="home-Image2">
         <h1 className="home-text">
