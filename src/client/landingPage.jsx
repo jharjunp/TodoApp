@@ -9,6 +9,7 @@ import Mission from "./Components/mission.jsx";
 import Chart from "./Components/chart.jsx";
 import ShowImage from "./Components/showImage.jsx";
 import RelayList from "./Components/RelayList.jsx";
+import RelayListcopy from "./Components/RelayListcopy.jsx";
 import LogViewer from "./Components/LogViewer.jsx";
 import getTodaysPrices from "@wasp/queries/getTodaysPrices";
 import "./Main.css";
@@ -54,7 +55,7 @@ const Home = (args) => {
           textLines={["Älykästä", "Energiansäästöä"]}
         />
       </div>
-      <div className="home-Image2">
+{/*       <div className="home-Image2">
         <h1 className="home-text">
           <span>Kotisi Älykäs Energiaohjaus</span>
         </h1>
@@ -65,7 +66,7 @@ const Home = (args) => {
             "Nordpool-sähköpörssin reaaliaikaista dataa varmistaakseen, että kotisi energiankulutus tapahtuu silloin, kun se on kaikkein ekologisinta ja edullisinta - eli kun uusiutuvan energian osuus on suurimmillaan.",
           ]}
         />
-      </div>
+      </div> */}
       <div className="home-banner">
         <Mission />
       </div>
@@ -82,7 +83,7 @@ const Home = (args) => {
       </div>
       <div className="home-Image1">
         {!user && <ShowImage imageName={"RelayList.png"} textLines={[]} />}
-        {user &&  <RelayList />}
+        {user &&  <RelayListcopy />}
       </div>
       <div className="home-steps">
         {user && <LogViewer />}
