@@ -55,7 +55,7 @@ const Home = (args) => {
           textLines={["Älykästä", "Energiansäästöä"]}
         />
       </div>
-      <div className="home-Image2">
+{/*       <div className="home-Image2">
         <h1 className="home-text">
           <span>Kotisi Älykäs Energiaohjaus</span>
         </h1>
@@ -66,7 +66,7 @@ const Home = (args) => {
             "Nordpool-sähköpörssin reaaliaikaista dataa varmistaakseen, että kotisi energiankulutus tapahtuu silloin, kun se on kaikkein ekologisinta ja edullisinta - eli kun uusiutuvan energian osuus on suurimmillaan.",
           ]}
         />
-      </div> 
+      </div> */} 
       <div className="home-banner">
         <Mission />
       </div>
