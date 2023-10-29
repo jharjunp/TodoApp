@@ -40,7 +40,7 @@ const sortRelays = (relays = []) => {
   });
 };
 
-const RelayList = ({ args }) => {
+const RelayManager = ({ args }) => {
   const {
     data: relays,
     isLoading: relaysLoading,
@@ -303,4 +303,4 @@ const RelayList = ({ args }) => {
   );
 };
 
-export default RelayList;
+export default RelayManager;
