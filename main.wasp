@@ -73,6 +73,7 @@ entity Relay {=psl
     price_2     Float   @default(10.0)
     isOn        Boolean @default(false)
     SetOn       Boolean @default(false)
+    ForceOn     DateTime?
     deviceID    String  @unique
     apiKey      String  @default("")
     Logs        Log[]
