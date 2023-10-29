@@ -66,7 +66,7 @@ const Home = (args) => {
             "Nordpool-sähköpörssin reaaliaikaista dataa varmistaakseen, että kotisi energiankulutus tapahtuu silloin, kun se on kaikkein ekologisinta ja edullisinta - eli kun uusiutuvan energian osuus on suurimmillaan.",
           ]}
         />
-      </div> */}
+      </div> */} 
       <div className="home-banner">
         <Mission />
       </div>
