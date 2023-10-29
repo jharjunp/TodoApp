@@ -7,6 +7,7 @@ import getRelays from "@wasp/queries/getRelays";
 import AddRelay from "./addRelay.jsx";
 import "tailwindcss/tailwind.css";
 import "../CSS/RelayList.css";
+import "../CSS/knob.scss";
 
 const getRelayModel = (type) => {
   switch (type) {
@@ -152,14 +153,36 @@ const RelayManager = ({ args }) => {
                   return (
                     <div
                       key={relay.id}
-                      className={`border rounded-lg p-4 ${
-                        isNok
-                          ? "bg-blue-300 border-red-500"
-                          : "bg-white border-gray-200"
-                      }`}
+                      className={`border rounded-lg p-4 ${isNok
+                        ? "bg-blue-300 border-red-500"
+                        : "bg-white border-gray-200"
+                        }`}
                     >
-                      <div className="text-sm font-medium">
-                        {getRelayModel(relay.type)}
+                      {/*                       <label class="switch-wrapper">
+                        <input type="checkbox" />
+                        <div class="switch"></div>
+                        <div class="switch-background"></div>
+                      </label> */}
+
+
+                      <div className="card-header">
+                        <div className="text-sm font-medium">
+                          {getRelayModel(relay.type)}
+                        </div>
+                        <div className="toggle">
+                          <input className="toggle-input" type="checkbox" />
+                          <div className="toggle-handle-wrapper">
+                            <div className="toggle-handle">
+                              <div className="toggle-handle-knob"></div>
+                              <div className="toggle-handle-bar-wrapper">
+                                <div className="toggle-handle-bar"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="toggle-base">
+                            <div className="toggle-base-inside"></div>
+                          </div>
+                        </div>
                       </div>
                       <div>Description: {relay.description}</div>
                       <div>Hours: {relay.hours}</div>
@@ -169,8 +192,8 @@ const RelayManager = ({ args }) => {
                           <div>Reduced Temperature: {relay.temp_2}</div>
                         </>
                       )}
-                      <div>Device ID: {relay.deviceID}</div>
-                      <div>API Key: {relay.apiKey}</div>
+                      {/*                       <div>Device ID: {relay.deviceID}</div>
+                      <div>API Key: {relay.apiKey}</div> */}
 
                       <div className="mt-2">
                         <div className="mt-2 flex justify-between items-center">
@@ -188,7 +211,7 @@ const RelayManager = ({ args }) => {
                             Delete
                           </button>
                         </div>
-                        {isEditing[relay.id] ? (
+                        {isEditing[relay.id] && (
                           <div className="mt-2">
                             <input
                               type="text"
@@ -273,9 +296,6 @@ const RelayManager = ({ args }) => {
                               </button>
                             </div>
                           </div>
-                        ) : (
-                          <div></div>
-                          // ... rest of your relay details and edit/delete buttons
                         )}
                       </div>
                     </div>

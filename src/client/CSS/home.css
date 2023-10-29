@@ -419,6 +419,10 @@
     width: var(--dl-size-size-xsmall);
     height: var(--dl-size-size-xsmall);
   }
+  .card-header {
+    justify-content: space-between;
+  }
+
   @media(max-width: 991px) {
     .home-text10 {
       max-width: 100%;
