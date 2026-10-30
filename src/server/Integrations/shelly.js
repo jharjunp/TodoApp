@@ -9,7 +9,7 @@ const createRequest = (relay, action) => {
   }).toString();
 
   return axios
-    .post("https://shelly-77-eu.shelly.cloud/device/relay/control", postData, {
+    .post("https://shelly-184-eu.shelly.cloud/device/relay/control", postData, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
